@@ -2,6 +2,9 @@
 #include <QDir>
 #include <QDebug>
 
+#include <QStringList>
+
+#include "night_common.h"
 #include "source/core/utils/utilities.h"
 
 
@@ -15,11 +18,12 @@ int main(int argc, char *argv[])
     QDir::setCurrent(a.applicationDirPath());
 
     // test for text file input
+    Night::Ref<QStringList> list_output = Night::CreateRef<QStringList>();
     {
         QString file = "source/assets/items/item_data.txt";
-        QByteArray file_output = Night::Utils::FileReadText(file);
+        Night::Utils::FileReadText(file, list_output);
         qDebug()
-                << file_output;
+                << *list_output;
     }
 
     // test for random number generation (3d6)

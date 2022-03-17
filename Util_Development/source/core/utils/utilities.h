@@ -7,6 +7,7 @@
 #include <time.h>       /* time */
 
 #include <QString>
+#include <QStringList>
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
@@ -16,8 +17,9 @@ namespace Night
     namespace Utils
     {
 
-        QByteArray FileReadText(
-                const QString filepath);
+        void FileReadText(
+                const QString filepath,
+                Ref<QStringList>& list);
 
 
         // Main Random Utilities

@@ -4,7 +4,9 @@ namespace Night
 {
     namespace Utils
     {
-        QByteArray FileReadText(const QString filepath)
+        void FileReadText(
+                const QString filepath,
+                Ref<QStringList> &list)
         {
             QDir build_directory;
             QString relative = "../Midnight/";
@@ -18,16 +20,17 @@ namespace Night
 
             file.close();
 
-            return result;
+            // remove last "\n" eof character
+            result.chop(1);
+
+            *list = QString(result).split("\n");;
         }
 
 
         // Main Random Utilities
         void Dice_Initialize()
         {
-            srand(
-                    (uint) time(NULL)
-                );
+            srand((uint) time(NULL));
         }
 
         int Dice_Roll(int num_of_dice_to_roll, int type_of_dice)
