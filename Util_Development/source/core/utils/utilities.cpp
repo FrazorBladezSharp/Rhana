@@ -9,10 +9,10 @@ namespace Night
                 Ref<QStringList> &list)
         {
             QDir build_directory;
-            QString relative = "../Midnight/";
             QByteArray result;
 
-            QFile file(build_directory.absoluteFilePath(relative + filepath));
+            QString relative = "../Midnight/" + filepath;
+            QFile file(build_directory.absoluteFilePath(relative));
             file.open(QIODevice::ReadOnly | QIODevice::Text);
 
             while (!file.atEnd())
