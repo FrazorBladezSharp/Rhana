@@ -22,8 +22,10 @@ namespace Night
 
             // remove last "\n" eof character
             result.chop(1);
+            // remove the last return character
+            result.chop(1);
 
-            *list = QString(result).split("\n");;
+            *list = QString(result).split("\n");
         }
 
 

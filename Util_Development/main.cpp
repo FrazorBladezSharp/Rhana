@@ -4,8 +4,11 @@
 
 #include <QStringList>
 
-#include "night_common.h"
+#include <source/night_common.h>
+#include <source/ECS/scene.h>
 #include "source/core/utils/utilities.h"
+#include "source/core/itemwarehouse.h"
+
 
 
 int main(int argc, char *argv[])
@@ -47,6 +50,34 @@ int main(int argc, char *argv[])
                     << "    Crit Failure: "
                     << is_crit_failure;
         }
+    }
+
+    // test and display a simple Item warehouse list
+    {
+        // the setup and initiaslization
+        Night::Ref<Night::Scene> scene = Night::CreateRef<Night::Scene>();
+        Night::Ref<Night::ItemWarehouse> items = Night::CreateRef<Night::ItemWarehouse>(scene);
+        scene->Initialize();
+        items->Initialize();
+
+        // the system requirements to view weapons
+        const QVector<Night::Scene::Object*> weapon_view = items->ViewWeapons();
+
+        // example on data access
+        for (int index = 0; index < weapon_view.size(); index++)
+        {
+            qDebug()
+                    << "Weapon entity: "
+                    << weapon_view[index]->entity_ID
+                    << weapon_view[index]->uuid;
+
+            Night::Combat_Component *weapon_component = static_cast<Night::Combat_Component*>( weapon_view[index]->components[(int)Night::Component::COMP_COMBAT]);
+            qDebug()
+                    << weapon_component->name
+                    << "    Damage: "
+                    << weapon_component->damage;
+        }
+
     }
 
     return 0;//a.exec();

@@ -25,8 +25,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-Midnight-Desktop_
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/debug/ -lMidnight
 else:unix: LIBS += -L$$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/ -lMidnight
 
-INCLUDEPATH += $$PWD/../Midnight/source
-DEPENDPATH += $$PWD/../Midnight/source
+INCLUDEPATH += $$PWD/../Midnight
+DEPENDPATH += $$PWD/../Midnight
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/release/libMidnight.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/debug/libMidnight.a

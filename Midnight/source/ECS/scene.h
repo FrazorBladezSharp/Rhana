@@ -42,6 +42,10 @@ namespace Night
 
         const QVector <Object*>& ViewRegistry();
 
+        Object* GetObject(int base_entity) {
+            return *m_Registry[base_entity].data();
+        }
+
     private:
         void BaseComponents(int entity_id);
 
