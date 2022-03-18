@@ -8,13 +8,11 @@ CONFIG -= app_bundle
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-        source/core/itemwarehouse.h \
-        source/core/utils/utilities.h
+        source/core/itemwarehouse.h
 
 SOURCES += \
         main.cpp \
-        source/core/itemwarehouse.cpp \
-        source/core/utils/utilities.cpp
+        source/core/itemwarehouse.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
