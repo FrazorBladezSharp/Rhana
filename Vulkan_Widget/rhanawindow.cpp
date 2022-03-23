@@ -10,10 +10,8 @@ RhanaWindow::RhanaWindow(Night::VulkanWidget *vkWidget)
 
     ui->setupUi(this);
 
-    m_VulkanWidget->setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    m_VulkanWidget->setMaximumSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    ui->Display_Layout->insertWidget(0, m_VulkanWidget);
 
-    ui->centralwidget->layout()->addWidget(m_VulkanWidget);
 }
 
 RhanaWindow::~RhanaWindow()

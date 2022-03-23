@@ -7,6 +7,7 @@ namespace Night
     {
 
         m_WindowContainer = QWidget::createWindowContainer(this);
+        m_WindowContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     }
 
