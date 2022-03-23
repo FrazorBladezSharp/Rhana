@@ -34,7 +34,7 @@ void RhanaWindow::MainGameLoop()
     // render continuously, throttled by the presentation rate
     m_VkWidget->requestUpdate();
 
-    // Update the frps display
+    // Update the fps display
     ui->FPS_Display->display(m_VkWidget->GetRenderer()->getFPS());
 
 
