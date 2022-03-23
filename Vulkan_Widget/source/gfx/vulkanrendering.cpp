@@ -7,7 +7,8 @@ namespace Night
         : m_VulkanWindow(window)
         , m_DeviceFunctions(nullptr)
     {
-        // Empty
+        m_CurretTimer.start(1000);
+
     }
 
     void VulkanRendering::initResources()
@@ -38,7 +39,11 @@ namespace Night
 
     void VulkanRendering::startNextFrame()
     {
-        VkClearColorValue clearColor = {{ 0.0f, 0.0f, 0.5f, 1.0f }};
+        m_FPScounter++;
+        if (m_CurretTimer.remainingTime() <= 1)
+            FPSUpdate();
+
+        VkClearColorValue clearColor = {{ 0.0f, 0.0f, 0.05f, 1.0f }};
         VkClearDepthStencilValue clearDS = { 1.0f, 0 };
         VkClearValue clearValues[2];
         memset(clearValues, 0, sizeof(clearValues));
@@ -58,7 +63,7 @@ namespace Night
         VkCommandBuffer cmdBuf = m_VulkanWindow->currentCommandBuffer();
         m_DeviceFunctions->vkCmdBeginRenderPass(cmdBuf, &rpBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-        // Do nothing else. We will just clear to green, changing the component on
+        // Do nothing else. We will just clear screen, changing the component on
         // every invocation. This also helps verifying the rate to which the thread
         // is throttled to. (The elapsed time between startNextFrame calls should
         // typically be around 16 ms. Note that rendering is 2 frames ahead of what
@@ -67,7 +72,17 @@ namespace Night
         m_DeviceFunctions->vkCmdEndRenderPass(cmdBuf);
 
         m_VulkanWindow->frameReady();
-        m_VulkanWindow->requestUpdate(); // render continuously, throttled by the presentation rate
+
+    }
+
+    void VulkanRendering::FPSUpdate()
+    {
+        m_CurretTimer.stop();
+
+        m_FPS = m_FPScounter;
+        m_FPScounter = 0;
+
+        m_CurretTimer.start(1000);
     }
 
 }

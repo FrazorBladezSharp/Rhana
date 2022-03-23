@@ -4,6 +4,7 @@
 namespace Night
 {
     VulkanWidget::VulkanWidget()
+        : m_Renderer(new VulkanRendering(this))
     {
 
         m_WindowContainer = QWidget::createWindowContainer(this);
@@ -13,7 +14,7 @@ namespace Night
 
     QVulkanWindowRenderer *VulkanWidget::createRenderer()
     {
-        return new VulkanRendering(this);
+        return m_Renderer;
     }
 
 }

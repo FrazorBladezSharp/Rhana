@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 
     RhanaWindow *window = new RhanaWindow(vulkanWidget);
-    window->show();
+    window->Go();
 
     int error_value = application.exec();
 

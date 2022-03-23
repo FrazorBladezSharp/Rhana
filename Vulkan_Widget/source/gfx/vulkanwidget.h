@@ -21,13 +21,13 @@ namespace Night
         QWidget* GetVulkanWidget(){
             return m_WindowContainer;
         }
-
-    signals:
-        void vulkanInfoReceived(const QString &text); // delete
-        void frameQueued(int colorValue); // delete
+        VulkanRendering *GetRenderer(){
+            return m_Renderer;
+        }
 
     private:
         QWidget *m_WindowContainer;
+        VulkanRendering *m_Renderer;
     };
 }
 
