@@ -56,12 +56,14 @@ int main(int argc, char *argv[])
     {
         // the setup and initiaslization
         Night::Ref<Night::Scene> scene = Night::CreateRef<Night::Scene>();
-        Night::Ref<Night::ItemWarehouse> items = Night::CreateRef<Night::ItemWarehouse>(scene);
+
+        int itemsEntity = scene->AddEntity();
+        Night::Ref<Night::ItemWarehouse> items = Night::CreateRef<Night::ItemWarehouse>(scene,  itemsEntity);
         scene->Initialize();
-        items->Initialize();
+        items->initialize();
 
         // the system requirements to view weapons
-        const QVector<Night::Scene::Object*> weapon_view = items->ViewWeapons();
+        const QVector<Night::Scene::Object*> weapon_view = items->viewWeapons();
 
         // example on data access
         for (int index = 0; index < weapon_view.size(); index++)
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
                     << weapon_view[index]->entity_ID
                     << weapon_view[index]->uuid;
 
-            Night::Combat_Component *weapon_component = static_cast<Night::Combat_Component*>( weapon_view[index]->components[(int)Night::Component::COMP_COMBAT]);
+            Night::Item_Component *weapon_component = static_cast<Night::Item_Component*>( weapon_view[index]->components[(int)Night::Component::COMP_ITEM]);
             qDebug()
                     << weapon_component->name
                     << "    Damage: "

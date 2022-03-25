@@ -3,8 +3,10 @@
 
 namespace Night
 {
-    ItemWarehouse::ItemWarehouse(Ref<Scene> &world)
+    ItemWarehouse::ItemWarehouse(Ref<Scene> &world, int items)
         : m_World(world)
+        , m_Items(items)
+        , m_BaseItemObject(m_World->GetObject(items))
     {
         m_Weapons = new QVector <Scene::Object*>();
     }
@@ -15,18 +17,17 @@ namespace Night
         delete m_Weapons;
     }
 
-    void ItemWarehouse::Initialize()
+    void ItemWarehouse::initialize()
+    { 
+        loadItemFile("source/assets/items/item_data.txt", m_Weapons);
+    }
+
+    //********************* Private ***************************
+
+    void ItemWarehouse::loadItemFile(QString file, QVector<Scene::Object *> *shelf)
     {
-        // this is example code on how to generate items
-        // please note you want to generate items on the fly !
-
-        // create a base item entity within the ECS
-        int items = m_World->AddEntity();
-        Scene::Object *base_item_object = m_World->GetObject(items);
-
         // read data from a text file for items
         Night::Ref<QStringList> list_output = Night::CreateRef<QStringList>();
-        QString file = "source/assets/items/item_data.txt";
         Night::Utils::FileReadText(file, list_output);
 
         // for each item in the text file
@@ -38,22 +39,20 @@ namespace Night
 
             // create our new Object using the ECS item as a template
             Scene::Object *weapon_new_item = new Scene::Object();
-            memcpy(weapon_new_item, base_item_object, sizeof(Scene::Object));
+            memcpy(weapon_new_item, m_BaseItemObject, sizeof(Scene::Object));
 
             // create the new component to be added to our item
-            Combat_Component *weapon = new Combat_Component();
+            Item_Component *weapon = new Item_Component();
             weapon->name = line.split(" ").at(0);
             weapon->damage = line.split(" ").at(1).toInt();
 
 
             // add data to the new Object
             weapon_new_item->uuid = QUuid::createUuid();
-            weapon_new_item->components[(unsigned)Night::Component::COMP_COMBAT] = weapon;
+            weapon_new_item->components[(unsigned)Night::Component::COMP_ITEM] = weapon;
 
             // Store the Object for later use
-            m_Weapons->push_back(weapon_new_item);
+            shelf->push_back(weapon_new_item);
         }
-
     }
-
 }

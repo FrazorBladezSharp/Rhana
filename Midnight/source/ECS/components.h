@@ -12,7 +12,7 @@ namespace Night
     enum class Component
     {
         COMP_POSITION,
-        COMP_COMBAT,
+        COMP_ITEM,
         COMP_TOTAL
     };
 
@@ -22,7 +22,7 @@ namespace Night
         float y = 0.0f;
     };
 
-    struct Combat_Component
+    struct Item_Component
     {
         QString name = "Default";
         int damage = -6;

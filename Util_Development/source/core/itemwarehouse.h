@@ -14,19 +14,26 @@ namespace Night
     {
 
     public:
-        ItemWarehouse(Ref<Scene>& world);
+        ItemWarehouse(Ref<Scene>& world, int items);
         ~ItemWarehouse();
 
-        void Initialize();
+        void initialize();
 
-        const QVector <Scene::Object*>& ViewWeapons(){
+        const QVector <Scene::Object*>& viewWeapons(){
             return *m_Weapons;
         }
 
 
     private:
+        void loadItemFile(QString file, QVector <Scene::Object*> *shelf);
+
         Ref<Scene> m_World;
+        int m_Items;
+        Scene::Object *m_BaseItemObject = nullptr;
+
         QVector <Scene::Object*> *m_Weapons;
+
+
 
     };
 }
