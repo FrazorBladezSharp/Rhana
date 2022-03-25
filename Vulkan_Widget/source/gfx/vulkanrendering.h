@@ -5,11 +5,14 @@
 #include <QVulkanWindow>
 #include <QVulkanDeviceFunctions>
 
+#include <QTimer>
 
 namespace Night
 {
     class VulkanRendering : public QVulkanWindowRenderer
     {
+
+
     public:
         VulkanRendering(QVulkanWindow *window = nullptr);
 
@@ -20,10 +23,20 @@ namespace Night
 
         void startNextFrame() override;
 
+        int getFPS(){
+            return m_FPS;
+        }
+
+
+        void FPSUpdate();
 
     private:
         QVulkanWindow *m_VulkanWindow;
         QVulkanDeviceFunctions *m_DeviceFunctions;
+
+        QTimer m_CurretTimer;
+        int m_FPS = 0;
+        int m_FPScounter = 0;
     };
 }
 

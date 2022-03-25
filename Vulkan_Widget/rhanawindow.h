@@ -1,12 +1,9 @@
 #ifndef RHANAWINDOW_H
 #define RHANAWINDOW_H
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-
 #include <QMainWindow>
 #include <QWidget>
-#include <QSizePolicy>
+#include <QTimer>
 
 #include "source/gfx/vulkanwidget.h"
 
@@ -24,9 +21,16 @@ public:
     RhanaWindow(Night::VulkanWidget *vkWidget = nullptr);
     ~RhanaWindow();
 
+    void Go();
+
+private slots:
+    void MainGameLoop();
+
 private:
     Ui::RhanaWindow *ui;
+    Night::VulkanWidget *m_VkWidget;
     QWidget *m_VulkanWidget;
+    QTimer m_Timer;
 };
 
 #endif // RHANAWINDOW_H
