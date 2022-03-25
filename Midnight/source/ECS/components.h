@@ -3,6 +3,7 @@
 
 
 #include <QVector>
+#include <QUuid>
 
 
 namespace Night
@@ -11,6 +12,7 @@ namespace Night
     enum class Component
     {
         COMP_POSITION,
+        COMP_ITEM,
         COMP_TOTAL
     };
 
@@ -18,6 +20,12 @@ namespace Night
     {
         float x = 0.0f;
         float y = 0.0f;
+    };
+
+    struct Item_Component
+    {
+        QString name = "Default";
+        int damage = -6;
     };
 
 

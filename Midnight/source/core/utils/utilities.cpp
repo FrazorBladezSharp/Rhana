@@ -20,10 +20,10 @@ namespace Night
 
             file.close();
 
-            // remove last "\n" eof character
+            // remove the last EOF character
             result.chop(1);
 
-            *list = QString(result).split("\n");;
+            *list = QString(result).split("\n");
         }
 
 

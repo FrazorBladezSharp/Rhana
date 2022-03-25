@@ -8,13 +8,11 @@ CONFIG -= app_bundle
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-        source/core/itemwarehouse.h \
-        source/core/utils/utilities.h
+        source/core/itemwarehouse.h
 
 SOURCES += \
         main.cpp \
-        source/core/itemwarehouse.cpp \
-        source/core/utils/utilities.cpp
+        source/core/itemwarehouse.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -25,8 +23,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-Midnight-Desktop_
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/debug/ -lMidnight
 else:unix: LIBS += -L$$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/ -lMidnight
 
-INCLUDEPATH += $$PWD/../Midnight/source
-DEPENDPATH += $$PWD/../Midnight/source
+INCLUDEPATH += $$PWD/../Midnight
+DEPENDPATH += $$PWD/../Midnight
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/release/libMidnight.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build-Midnight-Desktop_Qt_6_2_3_GCC_64bit-Debug/debug/libMidnight.a

@@ -2,7 +2,7 @@
 #define UTILITIES_H
 
 
-#include <night_common.h>
+#include <source/night_common.h>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
