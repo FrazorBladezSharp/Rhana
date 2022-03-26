@@ -16,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     rhanawindow.h \
+    source/gfx/buffers.h \
     source/gfx/vulkanrendering.h \
     source/gfx/vulkanwidget.h
 
