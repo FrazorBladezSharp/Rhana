@@ -21,16 +21,16 @@ public:
     RhanaWindow(Night::VulkanWidget *vkWidget = nullptr);
     ~RhanaWindow();
 
-    void Go();
+    void go();
 
 private slots:
-    void MainGameLoop();
+    void mainGameLoop();
 
 private:
-    Ui::RhanaWindow *ui;
-    Night::VulkanWidget *m_VkWidget;
-    QWidget *m_VulkanWidget;
-    QTimer m_Timer;
+    Ui::RhanaWindow *m_ui;
+    Night::VulkanWidget *m_vkWidget;
+    QWidget *m_vulkanWidget;
+    QTimer m_timer;
 };
 
 #endif // RHANAWINDOW_H

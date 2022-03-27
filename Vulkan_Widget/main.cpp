@@ -14,20 +14,20 @@ int main(int argc, char *argv[])
 
     QLoggingCategory::setFilterRules(QStringLiteral("qt.vulkan=true"));
 
-    QVulkanInstance our_instance;
-    our_instance.setLayers({ "VK_LAYER_KHRONOS_validation" });
+    QVulkanInstance ourInstance;
+    ourInstance.setLayers({ "VK_LAYER_KHRONOS_validation" });
 
-    if (!our_instance.create())
-        qFatal("Failed to create Vulkan instance: %d", our_instance.errorCode());
+    if (!ourInstance.create())
+        qFatal("Failed to create Vulkan instance: %d", ourInstance.errorCode());
 
-    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget;
-    vulkanWidget->setVulkanInstance(&our_instance);
+    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget();
+    vulkanWidget->setVulkanInstance(&ourInstance);
 
 
     RhanaWindow *window = new RhanaWindow(vulkanWidget);
-    window->Go();
+    window->go();
 
-    int error_value = application.exec();
+    int errorValue = application.exec();
 
-    return error_value;
+    return errorValue;
 }

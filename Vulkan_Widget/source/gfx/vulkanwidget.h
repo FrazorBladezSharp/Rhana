@@ -18,16 +18,16 @@ namespace Night
 
         QVulkanWindowRenderer *createRenderer() override;
 
-        QWidget* GetVulkanWidget(){
-            return m_WindowContainer;
+        QWidget* getVulkanWidget(){
+            return m_windowContainer;
         }
-        VulkanRendering *GetRenderer(){
-            return m_Renderer;
+        VulkanRendering *getRenderer(){
+            return m_renderer;
         }
 
     private:
-        QWidget *m_WindowContainer;
-        VulkanRendering *m_Renderer;
+        QWidget *m_windowContainer;
+        VulkanRendering *m_renderer;
     };
 }
 

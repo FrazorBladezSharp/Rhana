@@ -24,19 +24,19 @@ namespace Night
         void startNextFrame() override;
 
         int getFPS(){
-            return m_FPS;
+            return m_fps;
         }
 
 
-        void FPSUpdate();
+        void fpsUpdate();
 
     private:
-        QVulkanWindow *m_VulkanWindow;
-        QVulkanDeviceFunctions *m_DeviceFunctions;
+        QVulkanWindow *m_vulkanWindow;
+        QVulkanDeviceFunctions *m_deviceFunctions;
 
-        QTimer m_CurretTimer;
-        int m_FPS = 0;
-        int m_FPScounter = 0;
+        QTimer m_curretTimer;
+        int m_fps = 0;
+        int m_fpsCounter = 0;
     };
 }
 

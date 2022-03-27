@@ -4,10 +4,10 @@
 namespace Night
 {
     VulkanRendering::VulkanRendering(QVulkanWindow *window)
-        : m_VulkanWindow(window)
-        , m_DeviceFunctions(nullptr)
+        : m_vulkanWindow(window)
+        , m_deviceFunctions(nullptr)
     {
-        m_CurretTimer.start(1000);
+        m_curretTimer.start(1000);
 
     }
 
@@ -16,7 +16,7 @@ namespace Night
         qInfo()
                 << "[VulkanRendering] initResources active.";
 
-        m_DeviceFunctions = m_VulkanWindow->vulkanInstance()->deviceFunctions(m_VulkanWindow->device());
+        m_deviceFunctions = m_vulkanWindow->vulkanInstance()->deviceFunctions(m_vulkanWindow->device());
     }
 
     void VulkanRendering::initSwapChainResources()
@@ -39,9 +39,9 @@ namespace Night
 
     void VulkanRendering::startNextFrame()
     {
-        m_FPScounter++;
-        if (m_CurretTimer.remainingTime() <= 1)
-            FPSUpdate();
+        m_fpsCounter++;
+        if (m_curretTimer.remainingTime() <= 1)
+            fpsUpdate();
 
         VkClearColorValue clearColor = {{ 0.0f, 0.0f, 0.05f, 1.0f }};
         VkClearDepthStencilValue clearDS = { 1.0f, 0 };
@@ -53,15 +53,15 @@ namespace Night
         VkRenderPassBeginInfo rpBeginInfo;
         memset(&rpBeginInfo, 0, sizeof(rpBeginInfo));
         rpBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-        rpBeginInfo.renderPass = m_VulkanWindow->defaultRenderPass();
-        rpBeginInfo.framebuffer = m_VulkanWindow->currentFramebuffer();
-        const QSize sz = m_VulkanWindow->swapChainImageSize();
+        rpBeginInfo.renderPass = m_vulkanWindow->defaultRenderPass();
+        rpBeginInfo.framebuffer = m_vulkanWindow->currentFramebuffer();
+        const QSize sz = m_vulkanWindow->swapChainImageSize();
         rpBeginInfo.renderArea.extent.width = sz.width();
         rpBeginInfo.renderArea.extent.height = sz.height();
         rpBeginInfo.clearValueCount = 2;
         rpBeginInfo.pClearValues = clearValues;
-        VkCommandBuffer cmdBuf = m_VulkanWindow->currentCommandBuffer();
-        m_DeviceFunctions->vkCmdBeginRenderPass(cmdBuf, &rpBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+        VkCommandBuffer cmdBuf = m_vulkanWindow->currentCommandBuffer();
+        m_deviceFunctions->vkCmdBeginRenderPass(cmdBuf, &rpBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
         // Do nothing else. We will just clear screen, changing the component on
         // every invocation. This also helps verifying the rate to which the thread
@@ -69,20 +69,20 @@ namespace Night
         // typically be around 16 ms. Note that rendering is 2 frames ahead of what
         // is displayed.)
 
-        m_DeviceFunctions->vkCmdEndRenderPass(cmdBuf);
+        m_deviceFunctions->vkCmdEndRenderPass(cmdBuf);
 
-        m_VulkanWindow->frameReady();
+        m_vulkanWindow->frameReady();
 
     }
 
-    void VulkanRendering::FPSUpdate()
+    void VulkanRendering::fpsUpdate()
     {
-        m_CurretTimer.stop();
+        m_curretTimer.stop();
 
-        m_FPS = m_FPScounter;
-        m_FPScounter = 0;
+        m_fps = m_fpsCounter;
+        m_fpsCounter = 0;
 
-        m_CurretTimer.start(1000);
+        m_curretTimer.start(1000);
     }
 
 }

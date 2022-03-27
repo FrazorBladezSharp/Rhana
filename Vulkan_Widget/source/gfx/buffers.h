@@ -1,12 +1,12 @@
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
+#include <QList>
 #include <QVector3D>
 #include <QVector4D>
 
 namespace Night
 {
-
     typedef struct GFXmaterial
     {
         // various attributes
@@ -18,7 +18,7 @@ namespace Night
 
     } GFXmaterial;
 
-    typedef struct GFXvertexbuffer
+    typedef struct GFXvertex
     {
         // position
         QVector3D position;
@@ -28,6 +28,12 @@ namespace Night
 
         // material
         GFXmaterial *material;
+
+    } GFXvertex;
+
+    typedef struct GFXvertexbuffer
+    {
+        QList<GFXvertex> *vertexData;
 
     } GFXvertexbuffer;
 
