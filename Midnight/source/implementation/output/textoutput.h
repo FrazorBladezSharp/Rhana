@@ -11,15 +11,15 @@ namespace Night
     public:
         TextOutput(QWidget *parent = nullptr);
 
-        QString Initialize();
+        QString initialize();
 
-        QString SetPosition(int x, int y, QString symbol);
+        QString setPosition(int x, int y, QString symbol);
 
-        QString Move(int dir_x, int dir_y, int current_x, int current_y, QString symbol);
+        QString move(int dirX, int dirY, int currentX, int currentY, QString symbol);
 
     private:
 
-        QString ReconstructOutput();
+        QString reconstructOutput();
 
         QString scene[80][20];
     };

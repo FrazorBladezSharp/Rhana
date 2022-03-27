@@ -5,50 +5,50 @@ namespace Night
 {
     Midnight::Midnight(QObject *parent)
         : QObject(parent)
-        , m_MovementSystem(CreateRef<BasicMovement>())
-        , m_RenderingSystem(CreateRef<BasicRendering>())
-        , m_Scene(CreateRef<Scene>())
-        , m_Output(CreateRef<TextOutput>(nullptr))
-        , m_Camera(CreateRef<Camera>(m_Scene->AddEntity(), m_Scene))
-        , m_Player(CreateRef<Player>(m_Scene->AddEntity(), m_Scene))
+        , m_movementSystem(CreateRef<BasicMovement>())
+        , m_renderingSystem(CreateRef<BasicRendering>())
+        , m_scene(CreateRef<Scene>())
+        , m_output(CreateRef<TextOutput>(nullptr))
+        , m_camera(CreateRef<Camera>(m_scene->addEntity(), m_scene))
+        , m_player(CreateRef<Player>(m_scene->addEntity(), m_scene))
     {
-        m_Scene->Initialize();
+        m_scene->initialize();
     }
 
-    void Midnight::OnUpdate()
+    void Midnight::onUpdate()
     {
-        m_RenderingSystem->TextRendering(m_Output, m_TextView);
+        m_renderingSystem->textRendering(m_output, m_textView);
     }
 
-    bool Midnight::RegisterOutput(TextOutput *output)
+    bool Midnight::registerOutput(TextOutput *output)
     {
         bool result = true;
 
-        m_Output.reset(output);
-        m_TextView = m_Output->Initialize();
+        m_output.reset(output);
+        m_textView = m_output->initialize();
 
-        result = !(m_Output == nullptr);
+        result = !(m_output == nullptr);
 
         return result;
     }
 
-    void Midnight::SetPlayerPosition(int x, int y)
+    void Midnight::setPlayerPosition(int x, int y)
     {
-        Position_Component* player_position =
-                m_Player->getPosition();
+        PositionComponent* playerPosition =
+                m_player->getPosition();
 
-        player_position->x = x;
-        player_position->y = y;
+        playerPosition->x = x;
+        playerPosition->y = y;
 
-        m_TextView = m_Output->SetPosition(x, y, "P");
+        m_textView = m_output->setPosition(x, y, "@");
     }
 
-    void Midnight::MovePlayer(QKeyEvent *event)
+    void Midnight::movePlayer(QKeyEvent *event)
     {
-        m_MovementSystem->MovePlayer(
-                    m_Player,
-                    m_TextView,
-                    m_Output,
+        m_movementSystem->movePlayer(
+                    m_player,
+                    m_textView,
+                    m_output,
                     event);
     }
 

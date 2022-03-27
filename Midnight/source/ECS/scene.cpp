@@ -6,51 +6,51 @@ namespace Night
 
     Scene::Scene()
     {
-        m_Registry = new QVector<Object*>();
+        m_registry = new QVector<Object*>();
     }
 
     Scene::~Scene()
     {
-        m_Registry->clear();
-        delete m_Registry;
+        m_registry->clear();
+        delete m_registry;
     }
 
-    void Scene::Initialize()
+    void Scene::initialize()
     {
         for (int index = 0; index < NIGHT_MAX_ENTITIES; index++)
-            m_Entity->Entities[index] = NIGHT_UNUSED;   
+            m_entity->entities[index] = NIGHT_UNUSED;
     }
 
-    int Scene::AddEntity()
+    int Scene::addEntity()
     {
-        static int entity_ID = NIGHT_UNUSED;
-        entity_ID++;
+        static int entityID = NIGHT_UNUSED;
+        entityID++;
 
-        m_Entity->Entities[entity_ID] = entity_ID;
+        m_entity->entities[entityID] = entityID;
 
-        BaseComponents(entity_ID);
+        baseComponents(entityID);
 
-        return entity_ID;
+        return entityID;
     }
 
-    const QVector<Scene::Object *> &Scene::ViewRegistry()
+    const QVector<Scene::Object *> &Scene::viewRegistry()
     {
-        return *m_Registry;
+        return *m_registry;
     }
 
-    void Scene::BaseComponents(int entity_id)
+    void Scene::baseComponents(int entityID)
     {
-        Position_Component *position = new Position_Component();
+        PositionComponent *position = new PositionComponent();
 
         Object *object = new Object();
 
         for (int index = 0; index < (int)Night::Component::COMP_TOTAL; index++)
             object->components[index] = nullptr;
 
-        object->entity_ID = entity_id;
+        object->entityID = entityID;
         object->uuid = QUuid::createUuid();
         object->components[(unsigned)Night::Component::COMP_POSITION] = position;
 
-        m_Registry->push_back(object);
+        m_registry->push_back(object);
     }
 }

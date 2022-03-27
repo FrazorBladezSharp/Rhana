@@ -8,20 +8,20 @@ namespace Night
 
     }
 
-    void BasicMovement::MovePlayer(
+    void BasicMovement::movePlayer(
             Ref<Player> &player,
             QString &textView,
             Ref<TextOutput> &output,
             QKeyEvent *event)
     {
-        Position_Component* player_position =
+        PositionComponent* playerPosition =
                 player->getPosition();
 
         int x = 0;
         int y = 0;
 
-        int posX = player_position->x;
-        int posY = player_position->y;
+        int posX = playerPosition->x;
+        int posY = playerPosition->y;
 
         x += ((event->key() == Qt::Key::Key_D) * 1);
         x -= ((event->key() == Qt::Key::Key_A) * 1);
@@ -33,10 +33,10 @@ namespace Night
         posX += x;
         posY += y;
 
-        textView = output->Move(x, y, posX, posY, "P");
+        textView = output->move(x, y, posX, posY, "P");
 
-        player_position->x = posX;
-        player_position->y = posY;
+        playerPosition->x = posX;
+        playerPosition->y = posY;
     }
 
 }

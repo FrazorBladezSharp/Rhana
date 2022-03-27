@@ -4,8 +4,8 @@
 namespace Night
 {
     BaseMobile::BaseMobile(int id, Ref<Scene> &scene)
-        : m_ID(id)
-        , m_Scene(scene)
+        : m_id(id)
+        , m_scene(scene)
     {
         // Empty
     }

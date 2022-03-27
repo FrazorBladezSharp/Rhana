@@ -16,7 +16,7 @@ namespace Night
     public:
         BasicMovement();
 
-        void MovePlayer(
+        void movePlayer(
                 Ref<Player>& player,
                 QString& textView,
                 Ref<TextOutput>& output,

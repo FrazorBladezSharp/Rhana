@@ -20,18 +20,18 @@ namespace Night
         void initialize();
 
         const QVector <Scene::Object*>& viewWeapons(){
-            return *m_Weapons;
+            return *m_weapons;
         }
 
 
     private:
         void loadItemFile(QString file, QVector <Scene::Object*> *shelf);
 
-        Ref<Scene> m_World;
-        int m_Items;
-        Scene::Object *m_BaseItemObject = nullptr;
+        Ref<Scene> m_world;
+        int m_items;
+        Scene::Object *m_baseItemObject = nullptr;
 
-        QVector <Scene::Object*> *m_Weapons;
+        QVector <Scene::Object*> *m_weapons;
 
 
 

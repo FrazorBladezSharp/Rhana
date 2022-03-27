@@ -21,12 +21,12 @@ int main(int argc, char *argv[])
     QDir::setCurrent(a.applicationDirPath());
 
     // test for text file input
-    Night::Ref<QStringList> list_output = Night::CreateRef<QStringList>();
+    Night::Ref<QStringList> listOutput = Night::CreateRef<QStringList>();
     {
         QString file = "source/assets/items/item_data.txt";
-        Night::Utils::FileReadText(file, list_output);
+        Night::Utils::FileReadText(file, listOutput);
         qDebug()
-                << *list_output;
+                << *listOutput;
     }
 
     // test for random number generation (3d6)

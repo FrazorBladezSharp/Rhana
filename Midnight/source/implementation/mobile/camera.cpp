@@ -9,17 +9,17 @@ namespace Night
         // Empty
     }
 
-    Position_Component *Camera::getPosition()
+    PositionComponent *Camera::getPosition()
     {
-        Position_Component* camera_position = nullptr;
+        PositionComponent* cameraPosition = nullptr;
 
-        auto registry = m_Scene->ViewRegistry();
+        auto registry = m_scene->viewRegistry();
 
-        Scene::Object* object = registry[m_ID];
+        Scene::Object* object = registry[m_id];
 
-        camera_position = static_cast<Position_Component*>(object->components[(int)Component::COMP_POSITION]);
+        cameraPosition = static_cast<PositionComponent*>(object->components[(int)Component::COMP_POSITION]);
 
-        return camera_position;
+        return cameraPosition;
     }
 
 }

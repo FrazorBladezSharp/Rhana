@@ -10,13 +10,13 @@ namespace Night
     {
 
     public:
-        virtual Position_Component* getPosition() = 0;
+        virtual PositionComponent* getPosition() = 0;
 
     protected:
         explicit BaseMobile(int id, Ref<Scene> &scene);
 
-        int m_ID =0;
-        Ref<Scene> m_Scene;
+        int m_id =0;
+        Ref<Scene> m_scene;
 
     };
 }

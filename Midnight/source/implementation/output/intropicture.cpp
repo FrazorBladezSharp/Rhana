@@ -9,12 +9,12 @@ namespace Night
     {
         QImage image;
 
-        m_Gfx = new QGraphicsScene(this);
+        m_gfx = new QGraphicsScene(this);
 
-        QDir build_directory;
+        QDir buildDirectory;
 
         image.load(
-            build_directory.absoluteFilePath(
+            buildDirectory.absoluteFilePath(
                 "../Midnight/source/assets/pictures/midnight.jpg"
             )
         );
@@ -23,14 +23,14 @@ namespace Night
             qDebug() << "Error: Unable to find file";
 
 
-        m_Gfx->addPixmap(QPixmap::fromImage(image));
+        m_gfx->addPixmap(QPixmap::fromImage(image));
 
-        this->setScene(m_Gfx);
+        this->setScene(m_gfx);
 
     }
 
     IntroPicture::~IntroPicture()
     {
-        delete m_Gfx;
+        delete m_gfx;
     }
 }

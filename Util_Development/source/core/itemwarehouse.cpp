@@ -4,22 +4,22 @@
 namespace Night
 {
     ItemWarehouse::ItemWarehouse(Ref<Scene> &world, int items)
-        : m_World(world)
-        , m_Items(items)
-        , m_BaseItemObject(m_World->GetObject(items))
+        : m_world(world)
+        , m_items(items)
+        , m_baseItemObject(m_world->GetObject(items))
     {
-        m_Weapons = new QVector <Scene::Object*>();
+        m_weapons = new QVector <Scene::Object*>();
     }
 
     ItemWarehouse::~ItemWarehouse()
     {
-        m_Weapons->clear();
-        delete m_Weapons;
+        m_weapons->clear();
+        delete m_weapons;
     }
 
     void ItemWarehouse::initialize()
     { 
-        loadItemFile("source/assets/items/item_data.txt", m_Weapons);
+        loadItemFile("source/assets/items/item_data.txt", m_weapons);
     }
 
     //********************* Private ***************************
@@ -39,7 +39,7 @@ namespace Night
 
             // create our new Object using the ECS item as a template
             Scene::Object *weapon_new_item = new Scene::Object();
-            memcpy(weapon_new_item, m_BaseItemObject, sizeof(Scene::Object));
+            memcpy(weapon_new_item, m_baseItemObject, sizeof(Scene::Object));
 
             // create the new component to be added to our item
             Item_Component *weapon = new Item_Component();

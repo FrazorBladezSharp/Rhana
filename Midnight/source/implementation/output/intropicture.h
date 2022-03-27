@@ -18,7 +18,7 @@ namespace Night
 
 
     private:
-        QGraphicsScene* m_Gfx;
+        QGraphicsScene* m_gfx;
     };
 }
 #endif // INTROPICTURE_H

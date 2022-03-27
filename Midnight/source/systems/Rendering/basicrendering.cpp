@@ -8,7 +8,7 @@ namespace Night
         // Empty
     }
 
-    void BasicRendering::TextRendering(
+    void BasicRendering::textRendering(
             Ref<TextOutput> &output,
             QString textView)
     {

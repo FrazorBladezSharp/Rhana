@@ -9,7 +9,7 @@ namespace Night
         // Empty
     }
 
-    QString TextOutput::Initialize()
+    QString TextOutput::initialize()
     {
         // initialize text output
         for (int y = 0; y < 20; y++)
@@ -20,25 +20,25 @@ namespace Night
             scene[79][y] += "\n";
         }
 
-        return ReconstructOutput();
+        return reconstructOutput();
     }   
 
-    QString TextOutput::SetPosition(int x, int y, QString symbol)
+    QString TextOutput::setPosition(int x, int y, QString symbol)
     {
         scene[x][y] = symbol;
 
-        return ReconstructOutput();
+        return reconstructOutput();
     }
 
-    QString TextOutput::Move(int dir_x, int dir_y, int current_x, int current_y, QString symbol)
+    QString TextOutput::move(int dirX, int dirY, int currentX, int currentY, QString symbol)
     {
-        scene[current_x - dir_x][current_y - dir_y] = ".";
-        scene[current_x][current_y] = symbol;
+        scene[currentX - dirX][currentY - dirY] = ".";
+        scene[currentX][currentY] = symbol;
 
-        return ReconstructOutput();
+        return reconstructOutput();
     }
 
-    QString TextOutput::ReconstructOutput()
+    QString TextOutput::reconstructOutput()
     {
         QString result;
 

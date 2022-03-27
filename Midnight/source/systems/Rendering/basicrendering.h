@@ -13,7 +13,7 @@ namespace Night
     public:
         BasicRendering();
 
-        void TextRendering(
+        void textRendering(
                 Ref<TextOutput> &output,
                 QString textView);
     };

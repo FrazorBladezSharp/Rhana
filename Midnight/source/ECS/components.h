@@ -16,13 +16,13 @@ namespace Night
         COMP_TOTAL
     };
 
-    struct Position_Component
+    struct PositionComponent
     {
         float x = 0.0f;
         float y = 0.0f;
     };
 
-    struct Item_Component
+    struct ItemComponent
     {
         QString name = "Default";
         int damage = -6;

@@ -17,7 +17,7 @@ namespace Night
         struct Entity
         {
 
-            int Entities[NIGHT_MAX_ENTITIES];
+            int entities[NIGHT_MAX_ENTITIES];
 
         };
 
@@ -26,7 +26,7 @@ namespace Night
         typedef struct
         {
 
-            int entity_ID;
+            int entityID;
             QUuid uuid;
             void* components[(unsigned)Night::Component::COMP_TOTAL];
 
@@ -36,22 +36,22 @@ namespace Night
         Scene();
         ~Scene();
 
-        void Initialize();
+        void initialize();
 
-        int AddEntity();
+        int addEntity();
 
-        const QVector <Object*>& ViewRegistry();
+        const QVector <Object*>& viewRegistry();
 
-        Object* GetObject(int base_entity) {
-            return *m_Registry[base_entity].data();
+        Object* getObject(int baseEntity) {
+            return *m_registry[baseEntity].data();
         }
 
     private:
-        void BaseComponents(int entity_id);
+        void baseComponents(int entity_id);
 
-        Ref<Entity> m_Entity = CreateRef<Entity>();
+        Ref<Entity> m_entity = CreateRef<Entity>();
         // needs to be kept in sync with Entity.
-        QVector <Object*> *m_Registry;
+        QVector <Object*> *m_registry;
 
     };
 

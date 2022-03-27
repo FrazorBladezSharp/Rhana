@@ -17,28 +17,27 @@ namespace Night
     namespace Utils
     {
 
-        void FileReadText(
+        void fileReadText(
                 const QString filepath,
                 Ref<QStringList>& list);
 
 
         // Main Random Utilities
-        void Dice_Initialize();
+        void diceInitialize();
 
-        int Dice_Roll(
-                int num_of_dice_to_roll,
-                int type_of_dice);
+        int diceRoll(
+                int numDiceToRoll,
+                int typeOfDice);
 
         // using a 3d6 system we have the following :
-        bool Dice_Critical_Success(
+        bool diceCriticalSuccess(
             int effectiveSkill,
             int diceRoll);
 
 
-        bool Dice_Critical_Failure(
+        bool diceCriticalFailure(
             int effectiveSkill,
             int diceRoll);
-
 
     }
 }

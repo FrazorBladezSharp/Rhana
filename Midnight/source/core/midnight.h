@@ -22,24 +22,24 @@ namespace Night
     public:
         Midnight(QObject *parent);
 
-        void OnUpdate();
+        void onUpdate();
 
-        bool RegisterOutput(TextOutput* output);
+        bool registerOutput(TextOutput* output);
 
-        void SetPlayerPosition(int x, int y);
+        void setPlayerPosition(int x, int y);
 
-        void MovePlayer(QKeyEvent *event);
+        void movePlayer(QKeyEvent *event);
 
 
     private:
-        Ref<BasicMovement> m_MovementSystem;
-        Ref<BasicRendering> m_RenderingSystem;
+        Ref<BasicMovement> m_movementSystem;
+        Ref<BasicRendering> m_renderingSystem;
 
-        Ref<Scene> m_Scene;
-        Ref<TextOutput> m_Output;
-        Ref<Camera> m_Camera;
-        Ref<Player> m_Player;
-        QString m_TextView;
+        Ref<Scene> m_scene;
+        Ref<TextOutput> m_output;
+        Ref<Camera> m_camera;
+        Ref<Player> m_player;
+        QString m_textView;
 
     };
 }

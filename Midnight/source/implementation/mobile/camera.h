@@ -12,7 +12,7 @@ namespace Night
     public:
         Camera(int id, Ref<Scene> &scene);
 
-        virtual Position_Component* getPosition() override;
+        virtual PositionComponent* getPosition() override;
     };
 
 }

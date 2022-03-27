@@ -4,7 +4,7 @@ namespace Night
 {
     namespace Utils
     {
-        void FileReadText(
+        void fileReadText(
                 const QString filepath,
                 Ref<QStringList> &list)
         {
@@ -28,25 +28,25 @@ namespace Night
 
 
         // Main Random Utilities
-        void Dice_Initialize()
+        void diceInitialize()
         {
             srand((uint) time(NULL));
         }
 
-        int Dice_Roll(int num_of_dice_to_roll, int type_of_dice)
+        int diceRoll(int numDiceToRoll, int typeOfDice)
         {
-            int ret = 0;
+            int result = 0;
 
-                for (int i = 0; i < num_of_dice_to_roll; i++){
+                for (int i = 0; i < numDiceToRoll; i++){
 
-                    ret += (rand() % type_of_dice) + 1;
+                    result += (rand() % typeOfDice) + 1;
                 }
 
-                return ret;
+                return result;
         }
 
         // using a 3d6 system we have the following :
-        bool Dice_Critical_Success(int effectiveSkill, int diceRoll)
+        bool diceCriticalSuccess(int effectiveSkill, int diceRoll)
         {
             bool ret;
             int crit = 4;
@@ -63,7 +63,7 @@ namespace Night
             return ret;
         }
 
-        bool Dice_Critical_Failure(int effectiveSkill, int diceRoll)
+        bool diceCriticalFailure(int effectiveSkill, int diceRoll)
         {
             bool ret = false;
 

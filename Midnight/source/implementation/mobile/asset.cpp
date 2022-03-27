@@ -8,17 +8,17 @@ namespace Night
         // Empty
     }
 
-    Position_Component *Asset::getPosition()
+    PositionComponent *Asset::getPosition()
     {
-        Position_Component* asset_position = nullptr;
+        PositionComponent* assetPosition = nullptr;
 
-        auto registry = m_Scene->ViewRegistry();
+        auto registry = m_scene->viewRegistry();
 
-        Scene::Object* object = registry[m_ID];
+        Scene::Object* object = registry[m_id];
 
-        asset_position = static_cast<Position_Component*>(object->components[(int)Component::COMP_POSITION]);
+        assetPosition = static_cast<PositionComponent*>(object->components[(int)Component::COMP_POSITION]);
 
-        return asset_position;
+        return assetPosition;
     }
 
 }
