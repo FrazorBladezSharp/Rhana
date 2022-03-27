@@ -3,42 +3,44 @@
 
 
 RhanaWindow::RhanaWindow(Night::VulkanWidget *vkWidget)
-    : ui(new Ui::RhanaWindow)
-    , m_VkWidget(vkWidget)
-    , m_VulkanWidget(vkWidget->GetVulkanWidget())
+    : m_ui(new Ui::RhanaWindow)
+    , m_vkWidget(vkWidget)
+    , m_vulkanWidget(vkWidget->getVulkanWidget())
 {
 
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 
-    ui->Display_Layout->insertWidget(0, m_VulkanWidget);
+    m_ui->displayLayout->insertWidget(0, m_vulkanWidget);
 
-    connect(&m_Timer, SIGNAL(timeout()), this, SLOT(MainGameLoop()));
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(mainGameLoop()));
 
     this->show();
 }
 
 RhanaWindow::~RhanaWindow()
 {
-    delete ui;
+    delete m_vulkanWidget;
+    delete m_vkWidget;
+    delete m_ui;
 }
 
-void RhanaWindow::Go()
+void RhanaWindow::go()
 {
-    m_Timer.start(10);
+    m_timer.start(10);
 }
 
-void RhanaWindow::MainGameLoop()
+void RhanaWindow::mainGameLoop()
 {
-    m_Timer.stop();
+    m_timer.stop();
 
     // render continuously, throttled by the presentation rate
-    m_VkWidget->requestUpdate();
+    m_vkWidget->requestUpdate();
 
     // Update the fps display
-    ui->FPS_Display->display(m_VkWidget->GetRenderer()->getFPS());
+    m_ui->fpsDisplay->display(m_vkWidget->getRenderer()->getFPS());
 
 
-    m_Timer.start(10);
+    m_timer.start(10);
 }
 
 

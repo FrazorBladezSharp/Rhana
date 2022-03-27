@@ -440,19 +440,19 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="Display_Layout"/>
+     <layout class="QHBoxLayout" name="displayLayout"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="FPS_Label">
+       <widget class="QLabel" name="fpsLabel">
         <property name="text">
          <string>FPS</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLCDNumber" name="FPS_Display"/>
+       <widget class="QLCDNumber" name="fpsDisplay"/>
       </item>
       <item>
        <spacer name="horizontalSpacer">
@@ -487,7 +487,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
