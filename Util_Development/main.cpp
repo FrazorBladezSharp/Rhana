@@ -24,31 +24,31 @@ int main(int argc, char *argv[])
     Night::Ref<QStringList> listOutput = Night::CreateRef<QStringList>();
     {
         QString file = "source/assets/items/item_data.txt";
-        Night::Utils::FileReadText(file, listOutput);
+        Night::Utils::fileReadText(file, listOutput);
         qDebug()
                 << *listOutput;
     }
 
     // test for random number generation (3d6)
     {
-        Night::Utils::Dice_Initialize();
+        Night::Utils::diceInitialize();
 
-        int test_skill = 10;
+        int testskill = 10;
 
         for (int index = 0; index < 10; index ++)
         {
-            int die_roll = Night::Utils::Dice_Roll(3, 6);
+            int dieRoll = Night::Utils::diceRoll(3, 6);
 
-            bool is_crit_success = Night::Utils::Dice_Critical_Success(test_skill, die_roll);
-            bool is_crit_failure = Night::Utils::Dice_Critical_Failure(test_skill, die_roll);
+            bool isCritSuccess = Night::Utils::diceCriticalSuccess(testskill, dieRoll);
+            bool isCritFailure = Night::Utils::diceCriticalFailure(testskill, dieRoll);
 
             qDebug()
                     << "Dice Roll: "
-                    << die_roll
+                    << dieRoll
                     << "    Crit Success: "
-                    << is_crit_success
+                    << isCritSuccess
                     << "    Crit Failure: "
-                    << is_crit_failure;
+                    << isCritFailure;
         }
     }
 
@@ -57,27 +57,27 @@ int main(int argc, char *argv[])
         // the setup and initiaslization
         Night::Ref<Night::Scene> scene = Night::CreateRef<Night::Scene>();
 
-        int itemsEntity = scene->AddEntity();
+        int itemsEntity = scene->addEntity();
         Night::Ref<Night::ItemWarehouse> items = Night::CreateRef<Night::ItemWarehouse>(scene,  itemsEntity);
-        scene->Initialize();
+        scene->initialize();
         items->initialize();
 
         // the system requirements to view weapons
-        const QVector<Night::Scene::Object*> weapon_view = items->viewWeapons();
+        const QVector<Night::Scene::Object*> weaponView = items->viewHandTool();
 
         // example on data access
-        for (int index = 0; index < weapon_view.size(); index++)
+        for (int index = 0; index < weaponView.size(); index++)
         {
             qDebug()
                     << "Weapon entity: "
-                    << weapon_view[index]->entity_ID
-                    << weapon_view[index]->uuid;
+                    << weaponView[index]->entityID
+                    << weaponView[index]->uuid;
 
-            Night::Item_Component *weapon_component = static_cast<Night::Item_Component*>( weapon_view[index]->components[(int)Night::Component::COMP_ITEM]);
+            Night::ItemComponent *weaponComponent = static_cast<Night::ItemComponent*>( weaponView[index]->components[(int)Night::Component::COMP_ITEM]);
             qDebug()
-                    << weapon_component->name
+                    << weaponComponent->name
                     << "    Damage: "
-                    << weapon_component->damage;
+                    << weaponComponent->damage;
         }
 
     }

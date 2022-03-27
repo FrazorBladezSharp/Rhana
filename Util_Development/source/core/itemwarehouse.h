@@ -19,8 +19,8 @@ namespace Night
 
         void initialize();
 
-        const QVector <Scene::Object*>& viewWeapons(){
-            return *m_weapons;
+        const QVector <Scene::Object*>& viewHandTool(){
+            return *m_handTool;
         }
 
 
@@ -31,7 +31,7 @@ namespace Night
         int m_items;
         Scene::Object *m_baseItemObject = nullptr;
 
-        QVector <Scene::Object*> *m_weapons;
+        QVector <Scene::Object*> *m_handTool;
 
 
 
