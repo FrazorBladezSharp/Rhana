@@ -11,6 +11,7 @@ CONFIG += c17 c++17
 
 SOURCES += \
     source/ECS/scene.cpp \
+    source/core/itemwarehouse.cpp \
     source/core/midnight.cpp \
     source/core/utils/utilities.cpp \
     source/implementation/mobile/asset.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     source/ECS/components.h \
     source/ECS/scene.h \
+    source/core/itemwarehouse.h \
     source/core/midnight.h \
     source/core/utils/utilities.h \
     source/implementation/mobile/asset.h \
