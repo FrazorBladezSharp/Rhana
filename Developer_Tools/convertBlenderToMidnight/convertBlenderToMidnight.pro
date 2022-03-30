@@ -23,3 +23,7 @@ HEADERS += \
     source/gfx/vulkanrendering.h \
     source/gfx/vulkanwidget.h \
     source/rhanawindow.h
+
+DISTFILES += \
+    source/resource/shaders/color_frag.spv \
+    source/resource/shaders/color_vert.spv

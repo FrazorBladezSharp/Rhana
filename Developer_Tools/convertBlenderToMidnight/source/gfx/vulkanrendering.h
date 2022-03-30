@@ -7,6 +7,7 @@
 #include <QVulkanDeviceFunctions>
 
 #include <QTimer>
+#include <QFile>
 
 namespace Night
 {
@@ -15,7 +16,9 @@ namespace Night
 
 
     public:
-        VulkanRendering(QVulkanWindow *window = nullptr);
+        VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false);
+
+        VkShaderModule createShader(const QString &name);
 
         void initResources() override;
         void initSwapChainResources() override;
@@ -51,7 +54,7 @@ namespace Night
         VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
         VkPipeline m_pipeline = VK_NULL_HANDLE;
 
-        //QMatrix4x4 m_proj;
+        QMatrix4x4 m_proj;
         float m_rotation = 0.0f;
     };
 }

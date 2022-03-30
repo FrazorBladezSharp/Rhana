@@ -7,7 +7,6 @@ RhanaWindow::RhanaWindow(Night::VulkanWidget *vkWidget)
     , m_vkWidget(vkWidget)
     , m_vulkanWidget(vkWidget->getVulkanWidget())
 {
-
     m_ui->setupUi(this);
 
     m_ui->displayLayout->insertWidget(0, m_vulkanWidget);
