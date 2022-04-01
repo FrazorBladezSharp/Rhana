@@ -1,9 +1,7 @@
 #ifndef VULKANRENDERING_H
 #define VULKANRENDERING_H
 
-#include <QVulkanWindowRenderer>
 #include <QVulkanWindow>
-#include <QVulkanDeviceFunctions>
 
 #include <QTimer>
 
@@ -14,7 +12,7 @@ namespace Night
 
 
     public:
-        VulkanRendering(QVulkanWindow *window = nullptr);
+        VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false);
 
         void initResources() override;
         void initSwapChainResources() override;
@@ -30,9 +28,26 @@ namespace Night
 
         void fpsUpdate();
 
-    private:
-        QVulkanWindow *m_vulkanWindow;
-        QVulkanDeviceFunctions *m_deviceFunctions;
+    protected:
+        VkShaderModule createShader(const QString &name);
+
+            QVulkanWindow *m_window;
+            QVulkanDeviceFunctions *m_devFuncs;
+
+            VkDeviceMemory m_bufMem = VK_NULL_HANDLE;
+            VkBuffer m_buf = VK_NULL_HANDLE;
+            VkDescriptorBufferInfo m_uniformBufInfo[QVulkanWindow::MAX_CONCURRENT_FRAME_COUNT];
+
+            VkDescriptorPool m_descPool = VK_NULL_HANDLE;
+            VkDescriptorSetLayout m_descSetLayout = VK_NULL_HANDLE;
+            VkDescriptorSet m_descSet[QVulkanWindow::MAX_CONCURRENT_FRAME_COUNT];
+
+            VkPipelineCache m_pipelineCache = VK_NULL_HANDLE;
+            VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
+            VkPipeline m_pipeline = VK_NULL_HANDLE;
+
+            QMatrix4x4 m_proj;
+            float m_rotation = 0.0f;
 
         QTimer m_curretTimer;
         int m_fps = 0;

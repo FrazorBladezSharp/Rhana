@@ -1,11 +1,12 @@
-#include "rhanawindow.h"
 
+
+#include <QDir>
 #include <QApplication>
 #include <QLoggingCategory>
 #include <QVulkanInstance>
 
 #include "source/gfx/vulkanwidget.h"
-
+#include "rhanawindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,12 +21,17 @@ int main(int argc, char *argv[])
     if (!ourInstance.create())
         qFatal("Failed to create Vulkan instance: %d", ourInstance.errorCode());
 
-    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget();
-    vulkanWidget->setVulkanInstance(&ourInstance);
 
 
+    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget(&ourInstance);
     RhanaWindow *window = new RhanaWindow(vulkanWidget);
+    //vulkanWidget->setVulkanInstance(&ourInstance);
     window->go();
+
+    qInfo()
+            << "\nProject working directory: "
+            << QDir::currentPath()
+            << "\n";
 
     int errorValue = application.exec();
 
