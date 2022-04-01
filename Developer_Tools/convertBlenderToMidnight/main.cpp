@@ -5,6 +5,7 @@
 #include <QVulkanInstance>
 
 #include "source/gfx/vulkanwidget.h"
+#include "source/gfx/modelloader.h"
 
 
 int main(int argc, char *argv[])
@@ -22,12 +23,26 @@ int main(int argc, char *argv[])
     else
         qInfo("\n[main]Vulkan Instance Created.\n ");
 
-    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget(&ourInstance);
+    Night::GameModel *model = Night::Util::ModelLoader("baseFloorTile.obj");
+    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget(model, &ourInstance);
 
 
 
     RhanaWindow *window = new RhanaWindow(vulkanWidget);
     window->go();
+
+
+
+
+    if (model== nullptr) qInfo("\n[main] 3D Model did not load\n");
+    else
+        qInfo()
+                << "\n[main] : 3D model loaded"
+                << *model->vboStorage
+                << "\n";
+
+
+
 
     int errorValue = application.exec();
 

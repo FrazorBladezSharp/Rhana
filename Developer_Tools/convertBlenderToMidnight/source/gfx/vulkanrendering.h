@@ -9,6 +9,9 @@
 #include <QTimer>
 #include <QFile>
 
+#include "modelloader.h"
+
+
 namespace Night
 {
     class VulkanRendering : public QVulkanWindowRenderer
@@ -16,7 +19,7 @@ namespace Night
 
 
     public:
-        VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false);
+        VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false, Night::GameModel *model = nullptr);
 
         VkShaderModule createShader(const QString &name);
 
@@ -41,6 +44,8 @@ namespace Night
         QTimer m_curretTimer;
         int m_fps = 0;
         int m_fpsCounter = 0;
+
+        Night::GameModel *m_model;
 
         VkDeviceMemory m_bufMem = VK_NULL_HANDLE;
         VkBuffer m_buf = VK_NULL_HANDLE;

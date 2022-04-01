@@ -14,7 +14,7 @@ namespace Night
         Q_OBJECT
 
     public:
-        VulkanWidget(QVulkanInstance *ourInstance = nullptr);
+        VulkanWidget(Night::GameModel *model,QVulkanInstance *ourInstance = nullptr);
 
         QVulkanWindowRenderer *createRenderer() override;
 

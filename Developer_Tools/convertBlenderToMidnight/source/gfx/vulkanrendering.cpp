@@ -3,11 +3,11 @@
 
 namespace Night
 {
-    static float vertexData[] = { // Y up, front = CCW
-         0.0f,   0.5f,   1.0f, 0.0f, 0.0f,
-        -0.5f,  -0.5f,   0.0f, 1.0f, 0.0f,
-         0.5f,  -0.5f,   0.0f, 0.0f, 1.0f
-    };
+//    static float vertexData[] = { // Y up, front = CCW
+//         0.0f,   0.5f,   1.0f, 0.0f, 0.0f,
+//        -0.5f,  -0.5f,   0.0f, 1.0f, 0.0f,
+//         0.5f,  -0.5f,   0.0f, 0.0f, 1.0f
+//    };
 
     static const int UNIFORM_DATA_SIZE = 16 * sizeof(float);
 
@@ -18,9 +18,10 @@ namespace Night
 
 
 
-    VulkanRendering::VulkanRendering(QVulkanWindow *window, bool msaa)
+    VulkanRendering::VulkanRendering(QVulkanWindow *window, bool msaa, Night::GameModel *model)
         : m_vulkanWindow(window)
         , m_deviceFunctions(nullptr)
+        , m_model(model)
     {
         qDebug()
                 << "\n[VulkanRendering] : Constructed";
@@ -86,7 +87,7 @@ namespace Night
         bufInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 
         // Our internal layout is vertex(, uniform, uniform), ... with each uniform buffer start offset aligned to uniAlign.
-        const VkDeviceSize vertexAllocSize = aligned(sizeof(vertexData), uniAlign);
+        const VkDeviceSize vertexAllocSize = aligned(sizeof(float) * m_model->vboStorage->size(), uniAlign);
         const VkDeviceSize uniformAllocSize = aligned(UNIFORM_DATA_SIZE, uniAlign);
 
         bufInfo.size = vertexAllocSize + concurrentFrameCount * uniformAllocSize;
@@ -119,7 +120,7 @@ namespace Night
 
         // data for the 3D Model
         // this should be replaced by a non std lib function
-        memcpy(pointerToDataOnGPU, vertexData, sizeof(vertexData));
+        memcpy(pointerToDataOnGPU, m_model->vboStorage, sizeof(float) * m_model->vboStorage->size());
 
         // data for the shader Uniform variables
         QMatrix4x4 ident;

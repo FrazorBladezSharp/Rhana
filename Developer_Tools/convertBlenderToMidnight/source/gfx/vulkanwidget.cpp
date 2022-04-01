@@ -3,7 +3,7 @@
 
 namespace Night
 {
-    VulkanWidget::VulkanWidget(QVulkanInstance *ourInstance)
+    VulkanWidget::VulkanWidget(Night::GameModel *model, QVulkanInstance *ourInstance)
 
     {
         this->setVulkanInstance(ourInstance);
@@ -11,7 +11,7 @@ namespace Night
         qDebug()
                 << "\n[VulkanWidget] : Constructed";
 
-        m_renderer= new VulkanRendering(this, false);
+        m_renderer= new VulkanRendering(this, false, model);
         m_windowContainer = QWidget::createWindowContainer(this);
         m_windowContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
