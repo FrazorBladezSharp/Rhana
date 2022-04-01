@@ -22,6 +22,9 @@ namespace Night
         : m_vulkanWindow(window)
         , m_deviceFunctions(nullptr)
     {
+        qDebug()
+                << "\n[VulkanRendering] : Constructed";
+
         if (msaa) {
             const QList<int> counts = m_vulkanWindow->supportedSampleCounts();
             qDebug() << "Supported sample counts:" << counts;
@@ -33,15 +36,13 @@ namespace Night
                 }
             }
         }
-
-        m_curretTimer.start(1000);
     }
 
     VkShaderModule VulkanRendering::createShader(const QString &name)
     {
         QFile file(name);
         if (!file.open(QIODevice::ReadOnly)) {
-            qWarning("Failed to read shader %s", qPrintable(name));
+            qWarning("\nFailed to read shader %s\n", qPrintable(name));
             return VK_NULL_HANDLE;
         }
         QByteArray blob = file.readAll();
@@ -128,7 +129,7 @@ namespace Night
             memcpy(pointerToDataOnGPU + offset, ident.constData(), 16 * sizeof(float));
             m_uniformBufInfo[i].buffer = m_buf;
             m_uniformBufInfo[i].offset = offset;
-            m_uniformBufInfo[i].range = 1;
+            m_uniformBufInfo[i].range = uniformAllocSize;
         }
 
         // Unbinds the memory to avoid accidental access
@@ -356,8 +357,8 @@ namespace Night
         // fulcrum perspective
         m_proj.perspective(45.0f, sz.width() / (float) sz.height(), 0.01f, 100.0f);
 
-        // look at (x, y, z)co-ordinate
-        m_proj.translate(0.0f, 0.0f, -1.0f);
+        // move the camera (x, y, z)co-ordinate
+        m_proj.translate(0.0f, 0.0f, -4.0f);
     }
 
     void VulkanRendering::releaseSwapChainResources()

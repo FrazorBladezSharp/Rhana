@@ -19,9 +19,11 @@ int main(int argc, char *argv[])
 
     if (!ourInstance.create())
         qFatal("Failed to create Vulkan instance: %d", ourInstance.errorCode());
+    else
+        qInfo("\n[main]Vulkan Instance Created.\n ");
 
-    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget();
-    vulkanWidget->setVulkanInstance(&ourInstance);
+    Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget(&ourInstance);
+
 
 
     RhanaWindow *window = new RhanaWindow(vulkanWidget);

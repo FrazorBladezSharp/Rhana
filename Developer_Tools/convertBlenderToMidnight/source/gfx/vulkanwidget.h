@@ -14,7 +14,7 @@ namespace Night
         Q_OBJECT
 
     public:
-        VulkanWidget();
+        VulkanWidget(QVulkanInstance *ourInstance = nullptr);
 
         QVulkanWindowRenderer *createRenderer() override;
 

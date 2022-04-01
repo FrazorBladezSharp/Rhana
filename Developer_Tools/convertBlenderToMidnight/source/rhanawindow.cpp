@@ -8,12 +8,14 @@ RhanaWindow::RhanaWindow(Night::VulkanWidget *vkWidget)
     , m_vulkanWidget(vkWidget->getVulkanWidget())
 {
     m_ui->setupUi(this);
+    this->show();
 
     m_ui->displayLayout->insertWidget(0, m_vulkanWidget);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(mainGameLoop()));
 
-    this->show();
+    qDebug()
+            << "\n[RhanaWindow] : Constructed";
 }
 
 RhanaWindow::~RhanaWindow()
