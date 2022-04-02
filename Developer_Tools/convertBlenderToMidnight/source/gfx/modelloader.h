@@ -25,7 +25,7 @@ namespace Night
     namespace Util
     {
 
-        GameModel* ModelLoader(const std::string& path);
+        void ModelLoader(const std::string& path, GameModel& loadedAsset);
 
     }
 

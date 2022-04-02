@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
     else
         qInfo("\n[main]Vulkan Instance Created.\n ");
 
-    Night::GameModel *model = Night::Util::ModelLoader("baseFloorTile.obj");
+    Night::GameModel *model = new Night::GameModel();
+    Night::Util::ModelLoader("baseFloorTile.obj", *model);
     Night::VulkanWidget *vulkanWidget = new Night::VulkanWidget(model, &ourInstance);
 
 
@@ -34,12 +35,7 @@ int main(int argc, char *argv[])
 
 
 
-    if (model== nullptr) qInfo("\n[main] 3D Model did not load\n");
-    else
-        qInfo()
-                << "\n[main] : 3D model loaded"
-                << *model->vboStorage
-                << "\n";
+
 
 
 

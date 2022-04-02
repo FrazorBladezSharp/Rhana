@@ -4,9 +4,9 @@
 namespace Night
 {
 //    static float vertexData[] = { // Y up, front = CCW
-//         0.0f,   0.5f,   1.0f, 0.0f, 0.0f,
-//        -0.5f,  -0.5f,   0.0f, 1.0f, 0.0f,
-//         0.5f,  -0.5f,   0.0f, 0.0f, 1.0f
+//         0.0f,   0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,
+//        -0.5f,  -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,
+//         0.5f,  -0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f
 //    };
 
     static const int UNIFORM_DATA_SIZE = 16 * sizeof(float);
@@ -37,6 +37,22 @@ namespace Night
                 }
             }
         }
+
+        // instead of passing the model into VulkanRendering
+        // we can load the model here
+
+        // PLEASE DELETE FOLLOWING IN PASS2 AS IT DETAILS CODE.
+        // - or pass the model into our rendering from any place in our code base
+        // - this requires a new function ie: setModelForRendering(Night::GameModel *model){
+        // -    m_model = model
+        // - {
+
+        if (m_model== nullptr) qInfo("\n[main] 3D Model did not load\n");
+        else
+            qInfo()
+                    << "\n[VulkanRendering] : 3D model loaded"
+                    << *m_model->vboStorage
+                    << "\n";
     }
 
     VkShaderModule VulkanRendering::createShader(const QString &name)
@@ -87,7 +103,15 @@ namespace Night
         bufInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 
         // Our internal layout is vertex(, uniform, uniform), ... with each uniform buffer start offset aligned to uniAlign.
-        const VkDeviceSize vertexAllocSize = aligned(sizeof(float) * m_model->vboStorage->size(), uniAlign);
+        const VkDeviceSize vertexAllocSize = aligned(
+                    static_cast<uint64_t>(sizeof(float) * m_model->vboStorage->size()),
+                    uniAlign);
+
+        qDebug()
+                << "\nstatic_cast<uint64_t>(m_model->vboStorage->size()) = "
+                << static_cast<uint64_t>(m_model->vboStorage->size())
+                << "\n";
+
         const VkDeviceSize uniformAllocSize = aligned(UNIFORM_DATA_SIZE, uniAlign);
 
         bufInfo.size = vertexAllocSize + concurrentFrameCount * uniformAllocSize;
@@ -120,7 +144,7 @@ namespace Night
 
         // data for the 3D Model
         // this should be replaced by a non std lib function
-        memcpy(pointerToDataOnGPU, m_model->vboStorage, sizeof(float) * m_model->vboStorage->size());
+        memcpy(pointerToDataOnGPU, m_model->vboStorage, static_cast<uint64_t>(sizeof(float) * m_model->vboStorage->size()));
 
         // data for the shader Uniform variables
         QMatrix4x4 ident;
@@ -138,9 +162,11 @@ namespace Night
 
         /********************************************************************************/
 
+        // The following describes to the gpu - how we have arranged our data for usage
+        // in the shader programs
         VkVertexInputBindingDescription vertexBindingDesc = {
             0, // binding
-            5 * sizeof(float),
+            7 * sizeof(float),
             VK_VERTEX_INPUT_RATE_VERTEX
         };
 
@@ -148,14 +174,14 @@ namespace Night
             { // position
                 0, // location in shader
                 0, // binding
-                VK_FORMAT_R32G32_SFLOAT,
+                VK_FORMAT_R32G32B32_SFLOAT,
                 0
             },
             { // color
                 1,
                 0,
-                VK_FORMAT_R32G32B32_SFLOAT,
-                2 * sizeof(float)
+                VK_FORMAT_R32G32B32A32_SFLOAT,
+                3 * sizeof(float)
             }
         };
 
