@@ -3,6 +3,9 @@
 #include <QApplication>
 #include <QLoggingCategory>
 #include <QVulkanInstance>
+#include <QFile>
+#include <QByteArray>
+
 
 #include "source/gfx/vulkanwidget.h"
 #include "source/gfx/modelloader.h"
@@ -35,10 +38,19 @@ int main(int argc, char *argv[])
 
 
 
+    // save buffer to binary file
+    // ready to be used in any Midnight library game
 
+    // Midnight Model Data
+    QString fileExtention = ".mmd";
 
+    QFile file("baseFloorTile" + fileExtention);
+    file.open(QIODevice::WriteOnly);
 
+    QDataStream output(&file);
+    output << *model->vboStorage;
 
+    file.close();
 
     int errorValue = application.exec();
 
