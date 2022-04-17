@@ -53,6 +53,10 @@ namespace Night
                     << "\n[VulkanRendering] : 3D model loaded"
                     << *m_model->vboStorage
                     << "\n";
+
+        m_projectionMatrix.setToIdentity();
+        m_viewMatrix.setToIdentity();
+        m_modelMatrix.setToIdentity();
     }
 
     VkShaderModule VulkanRendering::createShader(const QString &name)
@@ -137,14 +141,14 @@ namespace Night
         m_deviceFunctions->vkAllocateMemory(gpuDevice, &memAllocInfo, nullptr, &m_bufMem);
         m_deviceFunctions->vkBindBufferMemory(gpuDevice, m_buf, m_bufMem, 0);
 
-        /******************** Assign data to the gpu bufffers ****************************/
+        /******************** Assign data to the gpu buffers ****************************/
         quint8 *pointerToDataOnGPU;
 
         m_deviceFunctions->vkMapMemory(gpuDevice, m_bufMem, 0, memReq.size, 0, reinterpret_cast<void **>(&pointerToDataOnGPU));
 
         // data for the 3D Model
         // this should be replaced by a non std lib function
-        memcpy(pointerToDataOnGPU, m_model->vboStorage, static_cast<uint64_t>(sizeof(float) * m_model->vboStorage->size()));
+        memcpy(pointerToDataOnGPU, &m_model->vboStorage[0][0], static_cast<uint64_t>(sizeof(float) * m_model->vboStorage->size()));
 
         // data for the shader Uniform variables
         QMatrix4x4 ident;
@@ -379,13 +383,13 @@ namespace Night
                 << "[VulkanRendering] initSwapChainResources active.";
 
         // Projection matrix
-        m_proj = m_vulkanWindow->clipCorrectionMatrix(); // adjust for Vulkan-OpenGL clip space differences
+        m_projectionMatrix = m_vulkanWindow->clipCorrectionMatrix(); // adjust for Vulkan-OpenGL clip space differences
         const QSize sz = m_vulkanWindow->swapChainImageSize();
         // fulcrum perspective
-        m_proj.perspective(45.0f, sz.width() / (float) sz.height(), 0.01f, 100.0f);
+        m_projectionMatrix.perspective(45.0f, sz.width() / (float) sz.height(), 0.01f, 100.0f);
 
-        // move the camera (x, y, z)co-ordinate
-        m_proj.translate(0.0f, 0.0f, -4.0f);
+        // move the model (x, y, z)co-ordinate
+        m_modelMatrix.translate(0.0f, 0.0f, 10.0f);
     }
 
     void VulkanRendering::releaseSwapChainResources()
@@ -482,8 +486,9 @@ namespace Night
         if (err != VK_SUCCESS)
             qFatal("Failed to map memory: %d", err);
 
-        QMatrix4x4 m = m_proj;
-        m.rotate(m_rotation, 0, 1, 0);
+        m_modelMatrix.rotate(m_rotation, 0, 1, 0);
+        QMatrix4x4 m = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
+        //m.rotate();
         memcpy(p, m.constData(), 16 * sizeof(float));
         m_deviceFunctions->vkUnmapMemory(dev, m_bufMem);
 

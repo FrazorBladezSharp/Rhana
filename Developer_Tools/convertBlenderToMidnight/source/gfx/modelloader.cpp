@@ -12,16 +12,16 @@ namespace Night
             loadedAsset.modelMatrix.setToIdentity();
             loadedAsset.vboStorage = new QList<float>;
 
-            Assimp::Importer *loader = new Assimp::Importer();
+            Assimp::Importer loader;// = new Assimp::Importer();
 
-            const struct aiScene* scene =
-                    loader->ReadFile(path, aiProcess_Triangulate);
+            const aiScene* scene =
+                    loader.ReadFile(path, aiProcess_Triangulate | 0); //aiProcessPreset_TargetRealtime_Quality);
 
             if (scene == nullptr)
             {
                 qInfo()
                         << "\n[ModelLoader] : unable to load 3D Model."
-                        << loader->GetErrorString();
+                        << loader.GetErrorString();
 
                 return;
             }
@@ -46,6 +46,14 @@ namespace Night
                 loadedAsset.vboStorage->push_back(0.1f);
                 loadedAsset.vboStorage->push_back(1.0f);
             }
+
+            qInfo()
+                    << "\nModel loaded :"
+                    << "\nNumber of Indices = "
+                    << loadedAsset.numIndices
+                    << "\nNumber of Vertices = "
+                    << loadedAsset.vboStorage->size() / 7
+                    << "\n";
         }
     }
 }

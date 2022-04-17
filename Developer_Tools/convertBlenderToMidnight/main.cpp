@@ -36,7 +36,11 @@ int main(int argc, char *argv[])
     window->go();
 
 
-
+    for (uint index = 0; index < model->vboStorage->size(); index++)
+        qInfo() << "\nindex: "
+                << index
+                << "    data: "
+                << model->vboStorage[0][index];
 
     // save buffer to binary file
     // ready to be used in any Midnight library game

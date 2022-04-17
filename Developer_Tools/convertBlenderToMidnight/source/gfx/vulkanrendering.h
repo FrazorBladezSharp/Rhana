@@ -59,7 +59,9 @@ namespace Night
         VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
         VkPipeline m_pipeline = VK_NULL_HANDLE;
 
-        QMatrix4x4 m_proj;
+        QMatrix4x4 m_projectionMatrix;
+        QMatrix4x4 m_viewMatrix;
+        QMatrix4x4 m_modelMatrix;
         float m_rotation = 0.0f;
     };
 }
