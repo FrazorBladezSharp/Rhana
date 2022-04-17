@@ -20,6 +20,7 @@ RhanaWindow::RhanaWindow(Night::VulkanWidget *vkWidget)
 
 RhanaWindow::~RhanaWindow()
 {
+    qDebug() << "\n[RhanaWindow] : Destroyed";
     delete m_vulkanWidget;
     delete m_vkWidget;
     delete m_ui;

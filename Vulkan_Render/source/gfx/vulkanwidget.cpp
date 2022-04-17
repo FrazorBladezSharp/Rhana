@@ -17,6 +17,14 @@ namespace Night
 
     }
 
+    VulkanWidget::~VulkanWidget()
+    {
+        qDebug() << "\n[VulkanWidget] : Destroyed";
+        //delete m_windowContainer;
+
+        //delete m_renderer;
+    }
+
     QVulkanWindowRenderer *VulkanWidget::createRenderer()
     {
         return m_renderer;

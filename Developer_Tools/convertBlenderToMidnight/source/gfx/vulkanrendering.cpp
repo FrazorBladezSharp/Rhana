@@ -389,7 +389,7 @@ namespace Night
         m_projectionMatrix.perspective(45.0f, sz.width() / (float) sz.height(), 0.01f, 100.0f);
 
         // move the model (x, y, z)co-ordinate
-        m_modelMatrix.translate(0.0f, 0.0f, 10.0f);
+        m_modelMatrix.translate(0.0f, 0.0f, -10.0f);
     }
 
     void VulkanRendering::releaseSwapChainResources()
@@ -445,7 +445,7 @@ namespace Night
     {
         const QSize sz = m_vulkanWindow->swapChainImageSize();
         VkDevice dev = m_vulkanWindow->device();
-        VkCommandBuffer cb = m_vulkanWindow->currentCommandBuffer();
+        VkCommandBuffer cmdBuf = m_vulkanWindow->currentCommandBuffer();
 
 
         m_fpsCounter++;
@@ -471,7 +471,6 @@ namespace Night
         rpBeginInfo.renderArea.extent.height = sz.height();
         rpBeginInfo.clearValueCount = 2;//m_vulkanWindow->sampleCountFlagBits() > VK_SAMPLE_COUNT_1_BIT ? 3 : 2;
         rpBeginInfo.pClearValues = clearValues;
-        VkCommandBuffer cmdBuf = m_vulkanWindow->currentCommandBuffer();
 
         // Render Begin
         m_deviceFunctions->vkCmdBeginRenderPass(cmdBuf, &rpBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
@@ -495,11 +494,11 @@ namespace Night
         // Not exactly a real animation system, just advance on every frame for now.
         m_rotation += 1.0f;
 
-        m_deviceFunctions->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
-        m_deviceFunctions->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1,
+        m_deviceFunctions->vkCmdBindPipeline(cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
+        m_deviceFunctions->vkCmdBindDescriptorSets(cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1,
                                    &m_descSet[m_vulkanWindow->currentFrame()], 0, nullptr);
         VkDeviceSize vbOffset = 0;
-        m_deviceFunctions->vkCmdBindVertexBuffers(cb, 0, 1, &m_buf, &vbOffset);
+        m_deviceFunctions->vkCmdBindVertexBuffers(cmdBuf, 0, 1, &m_buf, &vbOffset);
 
         VkViewport viewport;
         viewport.x = viewport.y = 0;
@@ -507,18 +506,18 @@ namespace Night
         viewport.height = sz.height();
         viewport.minDepth = 0;
         viewport.maxDepth = 1;
-        m_deviceFunctions->vkCmdSetViewport(cb, 0, 1, &viewport);
+        m_deviceFunctions->vkCmdSetViewport(cmdBuf, 0, 1, &viewport);
 
         VkRect2D scissor;
         scissor.offset.x = scissor.offset.y = 0;
         scissor.extent.width = viewport.width;
         scissor.extent.height = viewport.height;
-        m_deviceFunctions->vkCmdSetScissor(cb, 0, 1, &scissor);
+        m_deviceFunctions->vkCmdSetScissor(cmdBuf, 0, 1, &scissor);
 
         /*************************************/
 
         // Main Render command
-         m_deviceFunctions->vkCmdDraw(cb, 3, 1, 0, 0);
+         m_deviceFunctions->vkCmdDraw(cmdBuf, 3, 1, 0, 0);
 
         // Render end
         m_deviceFunctions->vkCmdEndRenderPass(cmdBuf);

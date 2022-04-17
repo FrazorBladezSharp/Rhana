@@ -8,6 +8,7 @@
 
 #include <QTimer>
 #include <QFile>
+#include <QVector3D>
 
 #include "modelloader.h"
 
@@ -20,6 +21,7 @@ namespace Night
 
     public:
         VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false, Night::GameModel *model = nullptr);
+        ~VulkanRendering();
 
         VkShaderModule createShader(const QString &name);
 
