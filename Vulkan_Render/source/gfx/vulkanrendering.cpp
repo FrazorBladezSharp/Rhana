@@ -3,11 +3,6 @@
 
 namespace Night
 {
-//    static float vertexData[] = { // Y up, front = CCW
-//         0.0f,   0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,
-//        -0.5f,  -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,
-//         0.5f,  -0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f
-//    };
 
     static const int UNIFORM_DATA_SIZE = 16 * sizeof(float);
 
@@ -924,7 +919,7 @@ namespace Night
     {
         qInfo() << "[VulkanRendering] initSwapChainResources active.";
 
-        QVector3D cameraLocation = {5.0f, 5.0f, 5.0f};
+        QVector3D cameraLocation = {2.0f, -2.0f, 2.0f};
         QVector3D cameraLookAt = {0.0f, 0.0f, 0.0f};
         QVector3D cameraUpDirection = {0.0f, -1.0f, 0.0f};
 
@@ -1105,7 +1100,7 @@ namespace Night
                 err
             );
 
-//        m_modelMatrix.rotate(m_rotation, 0, 1, 0);
+        m_modelMatrix.rotate(m_rotation, 0, 1, 0);
 
         QMatrix4x4 mvp =
             m_vulkanWindow->clipCorrectionMatrix() *
@@ -1127,7 +1122,8 @@ namespace Night
         );
 
 //        // Not exactly a real animation system, just advance on every frame for now.
-//        m_rotation += 1.0f;
+        m_rotation += 0.01f;
+        if(m_rotation > 2.0f) m_rotation -= 2.0f;
 
 
         m_deviceFunctions->vkCmdBindPipeline(
