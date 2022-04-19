@@ -16,10 +16,18 @@ int main(int argc, char *argv[])
     QApplication application(argc, argv);
 
 
-    QLoggingCategory::setFilterRules(QStringLiteral("qt.vulkan=true"));
+    //QLoggingCategory::setFilterRules(QStringLiteral("qt.vulkan=true"));
 
     QVulkanInstance ourInstance;
-    ourInstance.setLayers({ "VK_LAYER_KHRONOS_validation" });
+
+    qInfo() << "\nSupported Vulkan API: "
+            << ourInstance.supportedApiVersion();
+
+    ourInstance.setApiVersion(
+        ourInstance.supportedApiVersion()
+    );
+
+    //ourInstance.setLayers({ "VK_LAYER_KHRONOS_validation" });
 
     if (!ourInstance.create())
         qFatal("Failed to create Vulkan instance: %d", ourInstance.errorCode());
@@ -56,7 +64,9 @@ int main(int argc, char *argv[])
 
     file.close();
 
-    int errorValue = application.exec();
+    application.exec();
 
-    return errorValue;
+    ourInstance.destroy();
+
+    return 0;
 }

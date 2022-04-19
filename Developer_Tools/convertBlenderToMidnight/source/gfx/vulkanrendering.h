@@ -20,6 +20,7 @@ namespace Night
 
     public:
         VulkanRendering(QVulkanWindow *window = nullptr, bool msaa = false, Night::GameModel *model = nullptr);
+        ~VulkanRendering();
 
         VkShaderModule createShader(const QString &name);
 

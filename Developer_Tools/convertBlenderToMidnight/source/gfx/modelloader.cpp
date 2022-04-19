@@ -39,6 +39,8 @@ namespace Night
                 loadedAsset.vboStorage->push_back(mesh->mVertices[index][0]);
                 loadedAsset.vboStorage->push_back(mesh->mVertices[index][1]);
                 loadedAsset.vboStorage->push_back(mesh->mVertices[index][2]);
+                loadedAsset.vboStorage->push_back(1.0f);
+
 
                 //4 floats for the color
                 loadedAsset.vboStorage->push_back(0.1f);
