@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
             "\n[main]Vulkan Instance Created.\n "
         );
 
+
+
     Night::GameModel *model =
         new Night::GameModel();
 
@@ -63,13 +65,12 @@ int main(int argc, char *argv[])
 
 
 
-
-
-
     if(running)
-        return application.exec();
+        application.exec();
 
     vulkanInstance.destroy();
+
+    qInfo() << "\n[main] Vulkan Instance Destroyed.";
 
     return 0;
 }

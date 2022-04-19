@@ -2,7 +2,6 @@
 #define BUFFERS_H
 
 #include <QList>
-#include <QVector3D>
 #include <QVector4D>
 
 namespace Night
@@ -21,10 +20,10 @@ namespace Night
     typedef struct GFXvertex
     {
         // position
-        QVector3D position;
+        QVector4D position;
 
         // normal - the direction in which a vertex faces
-        QVector3D normal;
+        QVector4D normal;
 
         // material
         GFXmaterial *material;

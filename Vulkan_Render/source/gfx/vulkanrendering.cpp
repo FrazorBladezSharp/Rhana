@@ -66,11 +66,20 @@ namespace Night
     VkShaderModule VulkanRendering::createShader(const QString &name)
     {
         QFile file(name);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qWarning("\nFailed to read shader %s\n", qPrintable(name));
+
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            qWarning(
+                "\nFailed to read shader %s\n",
+                qPrintable(name)
+            );
+
             return VK_NULL_HANDLE;
         }
-        QByteArray code = file.readAll();
+
+        QByteArray code =
+            file.readAll();
+
         file.close();
 
         VkShaderModuleCreateInfo shaderInfo;
