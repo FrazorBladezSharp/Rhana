@@ -52,6 +52,8 @@ namespace Night
         m_projectionMatrix.setToIdentity();
         m_viewMatrix.setToIdentity();
         m_modelMatrix.setToIdentity();
+
+        m_curretTimer.start(1000);
     }
 
     VulkanRendering::~VulkanRendering()
@@ -919,9 +921,9 @@ namespace Night
     {
         qInfo() << "[VulkanRendering] initSwapChainResources active.";
 
-        QVector3D cameraLocation = {2.0f, -2.0f, 2.0f};
+        QVector3D cameraLocation = {0.0f, 0.0f, 2.0f};
         QVector3D cameraLookAt = {0.0f, 0.0f, 0.0f};
-        QVector3D cameraUpDirection = {0.0f, -1.0f, 0.0f};
+        QVector3D cameraUpDirection = {0.0f, 1.0f, 0.0f};
 
         const QSize sz =
             m_vulkanWindow->swapChainImageSize();
@@ -943,6 +945,8 @@ namespace Night
 
         // model Matrix
         m_modelMatrix.setToIdentity();
+        QVector3D modelLocation = {0.0f, 0.0f, 0.0f};
+        m_modelMatrix.translate(modelLocation);
     }
 
     void VulkanRendering::releaseSwapChainResources()
@@ -1020,7 +1024,7 @@ namespace Night
         VkCommandBuffer cmdBuf = m_vulkanWindow->currentCommandBuffer();
 
         m_fpsCounter++;
-        if (m_curretTimer.remainingTime() <= 1)
+        if (m_curretTimer.remainingTime() <= 10)
             fpsUpdate();
 
 
@@ -1100,7 +1104,7 @@ namespace Night
                 err
             );
 
-        m_modelMatrix.rotate(m_rotation, 0, 1, 0);
+        //m_modelMatrix.rotate(m_rotation, 0, 1, 0);
 
         QMatrix4x4 mvp =
             m_vulkanWindow->clipCorrectionMatrix() *

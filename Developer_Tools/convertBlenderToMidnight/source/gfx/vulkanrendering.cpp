@@ -919,9 +919,9 @@ namespace Night
     {
         qInfo() << "[VulkanRendering] initSwapChainResources active.";
 
-        QVector3D cameraLocation = {2.0f, -2.0f, 2.0f};
+        QVector3D cameraLocation = {2.0f, 2.0f, 2.0f};
         QVector3D cameraLookAt = {0.0f, 0.0f, 0.0f};
-        QVector3D cameraUpDirection = {0.0f, -1.0f, 0.0f};
+        QVector3D cameraUpDirection = {0.0f, 1.0f, 0.0f};
 
         const QSize sz =
             m_vulkanWindow->swapChainImageSize();
