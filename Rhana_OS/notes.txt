@@ -1,0 +1,10 @@
+on the command line :
+
+make loader.o
+
+make kernel.o
+
+make myKernel.bin
+
+needed to install libisoburn and mtools
+make mykernel.iso

@@ -1,0 +1,7 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/mnt/Projects/Twitch/Rhana_OS'
+as --32 -o loader.o loader.s
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -o kernel.o -c kernel.cpp
+ld -melf_i386 -T linker.ld -o mykernel.bin loader.o kernel.o
+make: Leaving directory '/mnt/Projects/Twitch/Rhana_OS'
+ 
