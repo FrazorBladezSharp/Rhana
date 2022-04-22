@@ -43,6 +43,7 @@ namespace Night
 
 
                 //4 floats for the color
+                // TODO: (Bladez) can we do better than this?
                 loadedAsset.vboStorage->push_back(0.1f);
                 loadedAsset.vboStorage->push_back(0.8f);
                 loadedAsset.vboStorage->push_back(0.1f);

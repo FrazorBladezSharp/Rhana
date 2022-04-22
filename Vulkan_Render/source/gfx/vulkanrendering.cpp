@@ -3,17 +3,63 @@
 
 namespace Night
 {
+// so ... to change all these #defines into variables we can set
+// we would need to write an api to derive the state for the gpu
+#define MEMORY_MAP_FLAGS 0
+#define BUFFER_MEMORY_OFFSET 0
+#define BUFFER_BINDING_HANDLE 0
+#define BUFFERS_NUM_IN_USE 1
 
-    static const int UNIFORM_DATA_SIZE = 16 * sizeof(float);
+#define NUM_VERTEX_BUFFERS_USED 1
+#define VERTEX_BUFFER_1_FLAGS 0
 
-    static inline VkDeviceSize aligned(VkDeviceSize v, VkDeviceSize byteAlign)
+#define VERTEX_BUFFER_POSITION_OFFSET 0
+#define VERTEX_BUFFER_COLOR_OFFSET 4
+//#define VERTEX_BUFFER_TEXTURE_UV_OFFSET 8
+
+// possible enum
+#define SHADER_POSITION_LOCATION 0
+#define SHADER_COLOR_LOCATION 1
+//#define SHADER_UV_LOCATION 2
+#define NUM_VERTEX_ATTRIBUTES 2
+
+#define SHADER_NUM_STAGES 2
+
+#define NUM_FLOATS_IN_MATRIX 16
+#define NUM_FLOATS_PER_VERTEX 8 // change to 10 when UV added
+
+#define DESCRIPTOR_POOL_SIZE 1
+#define DESCRIPTOR_NUM_OF_UNIFORMS 1
+
+#define DESCRIPTOR_SET_LAYOUT_FLAGS 0
+#define DESCRIPTOR_SET_BINDING_COUNT 1
+#define DESCRIPTOR_SET_NUM_TO_BE_ALLOCATED 1
+
+#define DESCRIPTOR_NUM_TO_UPDATE 1
+#define DESCRIPTOR_ELEMENT_FIRST 0
+#define DESCRIPTOR_BINDING_FIRST 0
+
+#define DESCRITOR_NUM_SETS_TO_USE 1
+
+
+
+    static const int UNIFORM_DATA_SIZE =
+        NUM_FLOATS_IN_MATRIX *
+        sizeof(float);
+
+    static inline VkDeviceSize aligned(
+        VkDeviceSize v,
+        VkDeviceSize byteAlign)
     {
         return (v + byteAlign - 1) & ~(byteAlign - 1);
     }
 
 
 
-    VulkanRendering::VulkanRendering(QVulkanWindow *window, bool msaa, Night::GameModel *model)
+    VulkanRendering::VulkanRendering(
+        QVulkanWindow *window,
+        bool msaa,
+        Night::GameModel *model)
         : m_vulkanWindow(window)
         , m_deviceFunctions(nullptr)
         , m_model(model)
@@ -54,7 +100,7 @@ namespace Night
         m_modelMatrix.setToIdentity();
 
 
-
+        // timer for 1 sec used for fps calculation
         m_curretTimer.start(1000);
     }
 
@@ -158,13 +204,7 @@ namespace Night
 
 
         // this must equate to the data to be used for the 3D model
-        VkBufferCreateInfo bufInfo;
-
-        memset(
-            &bufInfo,
-            0,
-            sizeof(bufInfo)
-        );
+        VkBufferCreateInfo bufInfo = {};
 
         bufInfo.sType =
             VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -248,7 +288,7 @@ namespace Night
             gpuDevice,
             m_buf,
             m_bufMem,
-            0
+            BUFFER_MEMORY_OFFSET
         );
 
 
@@ -259,9 +299,9 @@ namespace Night
         m_deviceFunctions->vkMapMemory(
             gpuDevice,
             m_bufMem,
-            0,
+            BUFFER_MEMORY_OFFSET,
             memReq.size,
-            0,
+            MEMORY_MAP_FLAGS,
             reinterpret_cast<void **>(
                 &pointerToDataOnGPU
             )
@@ -286,7 +326,14 @@ namespace Night
 
         for (int i = 0; i < concurrentFrameCount; ++i) {
             const VkDeviceSize offset = vertexAllocSize + i * uniformAllocSize;
-            memcpy(pointerToDataOnGPU + offset, ident.constData(), 16 * sizeof(float));
+
+            memcpy(
+                pointerToDataOnGPU + offset,
+                ident.constData(),
+                NUM_FLOATS_IN_MATRIX *
+                    sizeof(float)
+            );
+
             m_uniformBufInfo[i].buffer = m_buf;
             m_uniformBufInfo[i].offset = offset;
             m_uniformBufInfo[i].range = uniformAllocSize;
@@ -302,8 +349,8 @@ namespace Night
         // The following describes to the gpu - how we have arranged our data for usage
         // in the shader programs
         VkVertexInputBindingDescription vertexBindingDesc = {
-            0, // binding
-            8 * sizeof(float),
+            BUFFER_BINDING_HANDLE,
+            NUM_FLOATS_PER_VERTEX * sizeof(float),
             VK_VERTEX_INPUT_RATE_VERTEX
         };
 
@@ -311,16 +358,16 @@ namespace Night
 
         VkVertexInputAttributeDescription vertexAttrDesc[] = {
             { // position
-                0, // location in shader
-                0, // binding
+                SHADER_POSITION_LOCATION,
+                BUFFER_BINDING_HANDLE,
                 VK_FORMAT_R32G32B32A32_SFLOAT,
-                0
+                VERTEX_BUFFER_POSITION_OFFSET
             },
             { // color
-                1,
-                0,
+                SHADER_COLOR_LOCATION,
+                BUFFER_BINDING_HANDLE,
                 VK_FORMAT_R32G32B32A32_SFLOAT,
-                4 * sizeof(float)
+                VERTEX_BUFFER_COLOR_OFFSET * sizeof(float)
             }
         };
 
@@ -329,10 +376,12 @@ namespace Night
         VkPipelineVertexInputStateCreateInfo vertexInputInfo;
             vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
             vertexInputInfo.pNext = nullptr;
-            vertexInputInfo.flags = 0;
-            vertexInputInfo.vertexBindingDescriptionCount = 1;
+            vertexInputInfo.flags = VERTEX_BUFFER_1_FLAGS;
+            vertexInputInfo.vertexBindingDescriptionCount =
+                NUM_VERTEX_BUFFERS_USED;
             vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDesc;
-            vertexInputInfo.vertexAttributeDescriptionCount = 2;
+            vertexInputInfo.vertexAttributeDescriptionCount =
+                NUM_VERTEX_ATTRIBUTES;
             vertexInputInfo.pVertexAttributeDescriptions = vertexAttrDesc;
 
 
@@ -348,8 +397,6 @@ namespace Night
 
             VkDescriptorPoolCreateInfo descPoolInfo = {};
 
-            //memset(&descPoolInfo, 0, sizeof(descPoolInfo));
-
             descPoolInfo.sType =
                 VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 
@@ -360,7 +407,7 @@ namespace Night
                 concurrentFrameCount;
 
             descPoolInfo.poolSizeCount =
-                1;
+                DESCRIPTOR_POOL_SIZE;
 
             descPoolInfo.pPoolSizes =
                 &descPoolSizes;
@@ -383,9 +430,9 @@ namespace Night
 
             VkDescriptorSetLayoutBinding layoutBinding =
             {
-                0, // binding
+                BUFFER_BINDING_HANDLE,
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                1,
+                DESCRIPTOR_NUM_OF_UNIFORMS,
                 VK_SHADER_STAGE_VERTEX_BIT,
                 nullptr
             };
@@ -396,8 +443,8 @@ namespace Night
             {
                 VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
                 nullptr,
-                0,
-                1,
+                DESCRIPTOR_SET_LAYOUT_FLAGS,
+                DESCRIPTOR_SET_BINDING_COUNT,
                 &layoutBinding
             };
 
@@ -424,7 +471,7 @@ namespace Night
                     VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
                     nullptr,
                     m_descPool,
-                    1,
+                    DESCRIPTOR_SET_NUM_TO_BE_ALLOCATED,
                     &m_descSetLayout
                 };
 
@@ -445,8 +492,6 @@ namespace Night
 
                 VkWriteDescriptorSet descWrite = {};
 
-                //memset(&descWrite, 0, sizeof(descWrite));
-
                 descWrite.sType =
                     VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 
@@ -457,7 +502,7 @@ namespace Night
                     m_descSet[i];
 
                 descWrite.descriptorCount =
-                    1;
+                    DESCRIPTOR_NUM_TO_UPDATE;
 
                 descWrite.descriptorType =
                     VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -466,16 +511,16 @@ namespace Night
                     &m_uniformBufInfo[i];
 
                 descWrite.dstArrayElement =
-                    0;
+                    DESCRIPTOR_ELEMENT_FIRST;
 
                 descWrite.dstBinding =
-                    0;
+                    DESCRIPTOR_BINDING_FIRST;
 
                 m_deviceFunctions->vkUpdateDescriptorSets(
                     gpuDevice,
-                    1,
+                    DESCRITOR_NUM_SETS_TO_USE,
                     &descWrite,
-                    0,
+                    0,          // TODO: (Bladez) is this instancing ?
                     nullptr
                 );
             }
@@ -483,8 +528,7 @@ namespace Night
 
 
             // Pipeline cache
-            VkPipelineCacheCreateInfo pipelineCacheInfo;
-            memset(&pipelineCacheInfo, 0, sizeof(pipelineCacheInfo));
+            VkPipelineCacheCreateInfo pipelineCacheInfo = {};
             pipelineCacheInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
             err = m_deviceFunctions->vkCreatePipelineCache(gpuDevice, &pipelineCacheInfo, nullptr, &m_pipelineCache);
             if (err != VK_SUCCESS)
@@ -493,9 +537,7 @@ namespace Night
 
 
             // Pipeline layout
-            VkPipelineLayoutCreateInfo pipelineLayoutInfo;
-
-            memset(&pipelineLayoutInfo, 0, sizeof(pipelineLayoutInfo));
+            VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 
             pipelineLayoutInfo.sType =
                 VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -504,13 +546,13 @@ namespace Night
                 nullptr;
 
             pipelineLayoutInfo.pushConstantRangeCount =
-                0;
+                0; // TODO: (Bladez) ??
 
             pipelineLayoutInfo.pPushConstantRanges =
                 nullptr;
 
             pipelineLayoutInfo.setLayoutCount =
-                1;
+                DESCRITOR_NUM_SETS_TO_USE;
 
             pipelineLayoutInfo.pSetLayouts =
                 &m_descSetLayout;
@@ -550,16 +592,16 @@ namespace Night
 
 
             // Graphics pipeline
-            VkGraphicsPipelineCreateInfo pipelineInfo;
+            VkGraphicsPipelineCreateInfo pipelineInfo ={};
 
-            memset(&pipelineInfo, 0, sizeof(pipelineInfo));
+            //memset(&pipelineInfo, 0, sizeof(pipelineInfo));
 
             pipelineInfo.sType =
                 VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
 
 
-            VkPipelineShaderStageCreateInfo shaderStages[2] =
+            VkPipelineShaderStageCreateInfo shaderStages[SHADER_NUM_STAGES] =
             {
                 {
                     VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
@@ -583,7 +625,7 @@ namespace Night
             };
 
             pipelineInfo.stageCount =
-                2;
+                SHADER_NUM_STAGES;
 
             pipelineInfo.pStages =
                 shaderStages;
@@ -603,7 +645,7 @@ namespace Night
                 nullptr;
 
             ia.flags =
-                0;
+                0; // reserved for future use
 
             ia.primitiveRestartEnable =
                 VK_FALSE;
@@ -628,7 +670,7 @@ namespace Night
                 nullptr;
 
             vp.flags =
-                0;
+                0; // reserved for future use
 
             vp.viewportCount =
                 1;
@@ -657,7 +699,7 @@ namespace Night
                 nullptr;
 
             rs.flags =
-                0;
+                0; // reserved for future use
 
             rs.polygonMode =
                 VK_POLYGON_MODE_FILL;
@@ -678,16 +720,16 @@ namespace Night
                 VK_FALSE;
 
             rs.depthBiasConstantFactor =
-                0;
+                0; // default
 
             rs.depthBiasClamp =
-                0;
+                0; // default
 
             rs.depthBiasSlopeFactor =
-                0;
+                0; // default
 
             rs.lineWidth =
-                1.0f;
+                1.0f; // default
 
             pipelineInfo.pRasterizationState = &rs;
 
@@ -704,7 +746,7 @@ namespace Night
                 nullptr;
 
             ms.flags =
-                0;
+                0; // reserved for future use
 
             ms.pSampleMask =
                 nullptr;
@@ -722,13 +764,13 @@ namespace Night
                 VK_FALSE;
 
             ms.minSampleShading =
-                0.0f;
+                0.0f; // used if sampleShadingEnable = VK_TRUE
 
             pipelineInfo.pMultisampleState = &ms;
 
 
 
-            VkPipelineDepthStencilStateCreateInfo ds;
+            VkPipelineDepthStencilStateCreateInfo ds = {};
 
             //memset(&ds, 0, sizeof(ds));
 
@@ -739,7 +781,7 @@ namespace Night
                 nullptr;
 
             ds.flags =
-                0;
+                0; // TODO: (Bladez) ?
 
             ds.depthTestEnable =
                 VK_TRUE;
@@ -803,7 +845,7 @@ namespace Night
             cb.flags =
                 0;
 
-            VkPipelineColorBlendAttachmentState att[1];
+            VkPipelineColorBlendAttachmentState att[1] = {};
 
             //memset(&att, 0, sizeof(att));
 
@@ -867,8 +909,8 @@ namespace Night
 
 
 
-            VkPipelineDynamicStateCreateInfo dyn;
-            memset(&dyn, 0, sizeof(dyn));
+            VkPipelineDynamicStateCreateInfo dyn = {};
+            //memset(&dyn, 0, sizeof(dyn));
 
             dyn.sType =
                 VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
@@ -1129,7 +1171,7 @@ namespace Night
         memcpy(
             p_gpuUniformLocation,
             mvp.constData(),
-            16 * sizeof(float)
+            NUM_FLOATS_IN_MATRIX * sizeof(float)
         );
 
         m_deviceFunctions->vkUnmapMemory(
@@ -1151,10 +1193,10 @@ namespace Night
             cmdBuf,
             VK_PIPELINE_BIND_POINT_GRAPHICS,
             m_pipelineLayout,
-            0,
-            1,
+            DESCRIPTOR_ELEMENT_FIRST,
+            DESCRITOR_NUM_SETS_TO_USE,
             &m_descSet[m_vulkanWindow->currentFrame()],
-            0,
+            0, // Dynamic offset count
             nullptr
         );
 
@@ -1162,8 +1204,8 @@ namespace Night
 
         m_deviceFunctions->vkCmdBindVertexBuffers(
             cmdBuf,
-            0,
-            1,
+            BUFFER_BINDING_HANDLE,
+            BUFFERS_NUM_IN_USE,
             &m_buf,
             &vbOffset);
 
@@ -1173,18 +1215,36 @@ namespace Night
         viewport.height = sz.height();
         viewport.minDepth = 0;
         viewport.maxDepth = 1;
-        m_deviceFunctions->vkCmdSetViewport(cmdBuf, 0, 1, &viewport);
+
+        m_deviceFunctions->vkCmdSetViewport(
+            cmdBuf,
+            0, // first viewport
+            1, // viewport count
+            &viewport
+        );
 
         VkRect2D scissor;
         scissor.offset.x = scissor.offset.y = 0;
         scissor.extent.width = viewport.width;
         scissor.extent.height = viewport.height;
-        m_deviceFunctions->vkCmdSetScissor(cmdBuf, 0, 1, &scissor);
+
+        m_deviceFunctions->vkCmdSetScissor(
+            cmdBuf,
+            0, // first scissor
+            1, // scissor count
+            &scissor
+        );
 
         /*************************************/
 
         // Main Render command
-        m_deviceFunctions->vkCmdDraw(cmdBuf, m_model->numIndices, 1, 0, 0);
+        m_deviceFunctions->vkCmdDraw(
+            cmdBuf,
+            m_model->numIndices,    // vertex count
+            1,                      // instance count
+            0,                      // first vertex
+            0                       // first instance
+        );
 
         // Render end
         m_deviceFunctions->vkCmdEndRenderPass(

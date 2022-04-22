@@ -5,7 +5,7 @@ layout(location = 1) in vec4 color;
 
 layout(location = 0) out vec4 v_color;
 
-layout(std140, binding = 0) uniform buf {
+layout(std140, binding = 0) uniform ubuf {
     mat4 mvp;
 } ubuf;
 
