@@ -53,6 +53,8 @@ namespace Night
         m_viewMatrix.setToIdentity();
         m_modelMatrix.setToIdentity();
 
+
+
         m_curretTimer.start(1000);
     }
 
@@ -267,6 +269,7 @@ namespace Night
 
         // data for the 3D Model
         // this should be replaced by a non std lib function
+
         memcpy(
             pointerToDataOnGPU,
             &m_model->vboStorage[0][0],
@@ -953,9 +956,8 @@ namespace Night
         );
 
         // model Matrix
-        m_modelMatrix.setToIdentity();
-        QVector3D modelLocation = {0.0f, 0.0f, 0.0f};
-        m_modelMatrix.translate(modelLocation);
+        m_modelMatrix = m_model->modelMatrix;
+
     }
 
     void VulkanRendering::releaseSwapChainResources()
@@ -1135,8 +1137,8 @@ namespace Night
         );
 
 //        // Not exactly a real animation system, just advance on every frame for now.
-        m_rotation += 0.01f;
-        if(m_rotation > 2.0f) m_rotation -= 2.0f;
+//        m_rotation += 0.01f;
+//        if(m_rotation > 2.0f) m_rotation -= 2.0f;
 
 
         m_deviceFunctions->vkCmdBindPipeline(

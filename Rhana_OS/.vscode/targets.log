@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Apr 20 10:59:44 2022
+# Make data base, printed on Wed Apr 20 13:41:43 2022
 
 # Variables
 
@@ -21,7 +21,7 @@ NO_AT_BRIDGE = 1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-fda7a2ab-eaa1-4453-a833-808597aa23bb.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-2cdcb632-e911-4e73-af44-1d24ad415772.sock
 # environment
 LC_NAME = en_GB.UTF-8
 # environment
@@ -45,7 +45,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
 # environment
-PWD = /mnt/Projects/Twitch/Rhana_OS
+PWD = /mnt/Projects/Twitch/Rhana/Rhana_OS
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
@@ -73,7 +73,7 @@ XAUTHORITY = /run/user/1000/gdm/Xauthority
 # makefile
 MAKEFLAGS = pqrR
 # makefile
-CURDIR := /mnt/Projects/Twitch/Rhana_OS
+CURDIR := /mnt/Projects/Twitch/Rhana/Rhana_OS
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -97,7 +97,7 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 13109
+VSCODE_PID = 32288
 # environment
 MOZ_ENABLE_WAYLAND = 1
 # environment
@@ -193,7 +193,7 @@ MANAGERPID = 622
 # environment
 LC_MEASUREMENT = en_GB.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 13092
+GIO_LAUNCHED_DESKTOP_FILE_PID = 32271
 # environment
 _ = /usr/bin/make
 # environment
@@ -280,8 +280,8 @@ loader.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-
  
+
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
@@ -344,12 +344,12 @@ mykernel.iso: mykernel.bin
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 22 / storage = 187 B / avg = 8 B
-# current buf: size = 8162 B / used = 187 B / count = 22 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 21 / storage = 183 B / avg = 8 B
+# current buf: size = 8162 B / used = 183 B / count = 21 / avg = 8 B
 
-# strcache performance: lookups = 36 / hit rate = 38%
+# strcache performance: lookups = 36 / hit rate = 41%
 # hash-table stats:
-# Load=22/8192=0%, Rehash=0, Collisions=0/36=0%
-# Finished Make data base on Wed Apr 20 10:59:44 2022
+# Load=21/8192=0%, Rehash=0, Collisions=0/36=0%
+# Finished Make data base on Wed Apr 20 13:41:43 2022
 
  
