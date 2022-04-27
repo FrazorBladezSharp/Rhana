@@ -1,3 +1,4 @@
+
 #include "source/appCore/applicationwindow.h"
 
 #include <QApplication>

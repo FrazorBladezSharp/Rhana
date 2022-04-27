@@ -600,6 +600,16 @@
        <string>Midnight Engine</string>
       </property>
      </widget>
+     <widget class="QPlainTextEdit" name="maze_display">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>80</y>
+        <width>341</width>
+        <height>531</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
