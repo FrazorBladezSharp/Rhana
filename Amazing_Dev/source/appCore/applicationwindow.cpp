@@ -17,6 +17,12 @@ ApplicationWindow::ApplicationWindow(QWidget *parent)
 
     InitializeEngine();
 
+    // *** Game app stuff goes here ***
+
+
+
+    // ********************************
+
     m_Timer->setTimerType(Qt::PreciseTimer);
 
     connect(m_Timer, &QTimer::timeout, this, &ApplicationWindow::OnUpdate);

@@ -600,7 +600,7 @@
        <string>Midnight Engine</string>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="maze_display">
+     <widget class="MazeOutput" name="maze_display">
       <property name="geometry">
        <rect>
         <x>410</x>
@@ -635,6 +635,11 @@
    <class>Night::TextOutput</class>
    <extends>QPlainTextEdit</extends>
    <header location="global">source/implementation/output/textoutput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MazeOutput</class>
+   <extends>QPlainTextEdit</extends>
+   <header>source/appImplementation/appOutput/mazeoutput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

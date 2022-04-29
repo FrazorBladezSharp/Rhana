@@ -7,6 +7,8 @@
 #include <source/night_common.h>
 #include <source/core/midnight.h>
 
+#include "source/appImplementation/appOutput/mazeoutput.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ApplicationWindow; }
@@ -37,5 +39,8 @@ private:
     QTimer *m_Timer;
 
     Night::Midnight *m_Midnight;
+
+
+    Night::Ref<MazeOutput> m_mazeOutput;
 };
 #endif // APPLICATIONWINDOW_H

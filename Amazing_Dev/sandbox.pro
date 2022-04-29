@@ -4,6 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c17 c++17
 
+# a hack so QT can find the .ui file
 INCLUDEPATH += ./source/appCore
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -12,11 +13,15 @@ INCLUDEPATH += ./source/appCore
 
 SOURCES += \
     main.cpp \
-    source/appCore/applicationwindow.cpp
+    source/appCore/applicationwindow.cpp \
+    source/appCore/gameEngine.cpp \
+    source/appImplementation/appOutput/mazeoutput.cpp
 
 
 HEADERS += \
-    source/appCore/applicationwindow.h
+    source/appCore/applicationwindow.h \
+    source/appCore/gameEngine.h \
+    source/appImplementation/appOutput/mazeoutput.h
 
 
 
