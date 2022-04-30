@@ -9,6 +9,7 @@ ApplicationWindow::ApplicationWindow(QWidget *parent)
     , ui(new Ui::ApplicationWindow)
     , m_Timer(new QTimer(this))
     , m_Midnight(new Night::Midnight(this))
+    , m_gameEngine(new GameEngine(this))
 {
     ui->setupUi(this);
 
@@ -65,8 +66,14 @@ void ApplicationWindow::keyPressEvent(QKeyEvent *event)
 void ApplicationWindow::InitializeEngine()
 {    
     qInfo()
-            << "Registry of Output Device = "
+            << "Registry of Midnight Output Device = "
             << m_Midnight->registerOutput(ui->text_display);
 
     m_Midnight->setPlayerPosition(10, 5);
+
+    qInfo()
+            << "Registry of Application Output Device = "
+            << m_gameEngine->registerOutput(ui->maze_display, SCENE_WIDTH, SCENE_HEIGHT);
+
+    m_gameEngine->setPlayerPosition(10, 5);
 }

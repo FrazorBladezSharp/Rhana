@@ -19,12 +19,12 @@
 //        m_renderingSystem->textRendering(m_output, m_textView);
     }
 
-    bool GameEngine::registerOutput(MazeOutput *output)
+    bool GameEngine::registerOutput(MazeOutput* output, int sceneWidth, int sceneHeight)
     {
         bool result = true;
 
         m_output.reset(output);
-        m_textView = m_output->initialize();
+        m_textView = m_output->initialize(sceneWidth, sceneHeight);
 
         result = !(m_output == nullptr);
 
@@ -33,13 +33,13 @@
 
     void GameEngine::setPlayerPosition(int x, int y)
     {
-        Night::PositionComponent* playerPosition =
-                m_player->getPosition();
+//        Night::PositionComponent* playerPosition =
+//                m_player->getPosition();
 
-        playerPosition->x = x;
-        playerPosition->y = y;
+//        playerPosition->x = x;
+//        playerPosition->y = y;
 
-        m_textView = m_output->setPosition(x, y, "@");
+//        m_textView = m_output->setPosition(x, y, "@");
     }
 
     void GameEngine::movePlayer(QKeyEvent *event)

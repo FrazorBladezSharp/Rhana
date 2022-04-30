@@ -7,8 +7,12 @@
 #include <source/night_common.h>
 #include <source/core/midnight.h>
 
+#include "source/appCore/gameEngine.h"
 #include "source/appImplementation/appOutput/mazeoutput.h"
 
+
+#define SCENE_WIDTH 10
+#define SCENE_HEIGHT 10
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ApplicationWindow; }
@@ -39,6 +43,7 @@ private:
     QTimer *m_Timer;
 
     Night::Midnight *m_Midnight;
+    GameEngine *m_gameEngine;
 
 
     Night::Ref<MazeOutput> m_mazeOutput;

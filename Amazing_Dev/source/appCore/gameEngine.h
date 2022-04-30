@@ -25,7 +25,7 @@
 
         void onUpdate();
 
-        bool registerOutput(MazeOutput* output);
+        bool registerOutput(MazeOutput* output, int sceneWidth, int sceneHeight);
 
         void setPlayerPosition(int x, int y);
 

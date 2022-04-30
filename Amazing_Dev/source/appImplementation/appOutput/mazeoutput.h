@@ -3,8 +3,6 @@
 
 #include <QPlainTextEdit>
 
-#define SCENE_WIDTH 10
-#define SCENE_HEIGHT 10
 
 
     class MazeOutput : public QPlainTextEdit
@@ -13,7 +11,7 @@
     public:
         MazeOutput(QWidget *parent = nullptr);
 
-        QString initialize();
+        QString initialize(int sceneWidth, int sceneHeight);
 
         QString setPosition(int x, int y, QString symbol);
 
@@ -23,7 +21,11 @@
 
         QString reconstructOutput();
 
-        QString scene[SCENE_WIDTH][SCENE_HEIGHT];
+        QString m_scene;
+
+        int m_sceneWidth;
+
+        int m_sceneHeight;
     };
 
 

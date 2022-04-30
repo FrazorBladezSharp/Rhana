@@ -7,19 +7,18 @@
         // Empty
     }
 
-    QString MazeOutput::initialize()
+    QString MazeOutput::initialize(int sceneWidth, int sceneHeight)
     {
         // initialize text output
+        m_sceneWidth = sceneWidth;
+        m_sceneHeight = sceneHeight;
 
-        // TODO: (Bladez)
-        // need a new container to store our scene QList ??
-
-        for (int y = 0; y < SCENE_HEIGHT; y++)
+        for (int y = 0; y < sceneHeight; y++)
         {
-            for (int x = 0; x < SCENE_WIDTH - 1; x++)
-                scene[x][y] = ".";
+            for (int x = 0; x < sceneWidth - 1; x++)
+                m_scene += ".";
 
-            scene[SCENE_WIDTH - 1][y] += "\n";
+            m_scene += "\n";
         }
 
         return reconstructOutput();
@@ -27,15 +26,15 @@
 
     QString MazeOutput::setPosition(int x, int y, QString symbol)
     {
-        scene[x][y] = symbol;
+        m_scene.replace(1, x + y * x, symbol);
 
         return reconstructOutput();
     }
 
     QString MazeOutput::move(int dirX, int dirY, int currentX, int currentY, QString symbol)
     {
-        scene[currentX - dirX][currentY - dirY] = ".";
-        scene[currentX][currentY] = symbol;
+        m_scene.replace(1, (currentX - dirX) + (currentY - dirY) * (currentX - dirX), ".");
+        m_scene.replace(1, currentX + currentY * currentX, symbol);
 
         return reconstructOutput();
     }
@@ -44,10 +43,10 @@
     {
         QString result;
 
-        for (int y = 0; y < SCENE_HEIGHT; y++)
+        for (int y = 0; y < m_sceneHeight; y++)
         {
-            for (int x = 0; x < SCENE_WIDTH - 1; x++)
-                result += scene[x][y];
+            for (int x = 0; x < m_sceneWidth - 1; x++)
+                result += m_scene[x + y * x];
 
             result += "\n";
         }
